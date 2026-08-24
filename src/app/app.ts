@@ -1,15 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, HttpClientModule],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    FormsModule,
+    HttpClientModule
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+export class App implements OnInit {
 
   studentName = '';
   roomNumber = '';
@@ -19,8 +25,15 @@ export class App {
   complaintType = '';
   description = '';
   photo: File | null = null;
+  sendToSuperintendent = false;
+
+  complaints: any[] = [];
 
   constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.loadComplaints();
+  }
 
   onPhotoSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -37,7 +50,9 @@ export class App {
       roomNumber: this.roomNumber,
       block: this.block,
       warden: this.warden,
-      superintendent: this.superintendent,
+      superintendent: this.sendToSuperintendent
+        ? this.superintendent
+        : null,
       complaintType: this.complaintType,
       description: this.description,
       photoViewed: false
@@ -71,10 +86,28 @@ export class App {
         this.complaintType = '';
         this.description = '';
         this.photo = null;
+        this.sendToSuperintendent = false;
+        this.superintendent = 'Basanta Manjari Dash';
+
+        this.loadComplaints();
       },
       error: (error) => {
         console.error('Error submitting complaint:', error);
         alert('Failed to submit complaint.');
+      }
+    });
+  }
+
+  loadComplaints() {
+    this.http.get<any[]>(
+      'http://localhost:8080/complaints'
+    ).subscribe({
+      next: (data) => {
+        this.complaints = data;
+        console.log('Complaints loaded:', data);
+      },
+      error: (error) => {
+        console.error('Error loading complaints:', error);
       }
     });
   }
