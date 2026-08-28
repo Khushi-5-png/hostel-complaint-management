@@ -10,7 +10,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     <div class="dashboard">
 
       <h1>Warden Dashboard</h1>
-      <p class="subtitle">Submitted Hostel Complaints</p>
+      <p class="subtitle">Complaints assigned to Pramila Dash</p>
 
       <div
         class="complaint-card"
@@ -56,7 +56,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 
         <div *ngIf="complaint.photoPath" class="photo-section">
           <strong>Photo:</strong>
-
           <br><br>
 
           <a
@@ -72,6 +71,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
         </p>
 
       </div>
+
+      <p *ngIf="complaints.length === 0">
+        No complaints assigned to Pramila Dash.
+      </p>
 
     </div>
   `
@@ -91,9 +94,17 @@ export class WardenDashboardComponent implements OnInit {
       'http://localhost:8080/complaints'
     ).subscribe({
       next: (data) => {
-        this.complaints = data;
-        console.log('Complaints loaded:', data);
+
+        this.complaints = data.filter(
+          complaint => complaint.warden === 'Pramila Dash'
+        );
+
+        console.log(
+          'Pramila Dash complaints:',
+          this.complaints
+        );
       },
+
       error: (error) => {
         console.error('Error loading complaints:', error);
       }
