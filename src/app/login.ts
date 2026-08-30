@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
+  styleUrl: './app.css',
   template: `
     <div class="login-container">
 
@@ -27,6 +28,7 @@ import { Router } from '@angular/router';
             [(ngModel)]="role"
           >
             <option value="">Select Role</option>
+            <option value="student">Student</option>
             <option value="warden">Warden</option>
             <option value="superintendent">Superintendent</option>
           </select>
@@ -60,7 +62,10 @@ import { Router } from '@angular/router';
           Login
         </button>
 
-        <p class="error" *ngIf="errorMessage">
+        <p
+          class="error"
+          *ngIf="errorMessage"
+        >
           {{ errorMessage }}
         </p>
 
@@ -87,22 +92,42 @@ export class LoginComponent {
       return;
     }
 
+    // Student Login
+    if (
+      this.role === 'student' &&
+      this.username.toLowerCase() === 'khushi' &&
+      this.password === '1234'
+    ) {
+      localStorage.setItem('loggedInRole', 'student');
+      localStorage.setItem('studentName', 'Khushi');
+
+      this.router.navigate(['/student-dashboard']);
+      return;
+    }
+
+    // Warden Login
     if (
       this.role === 'warden' &&
       this.username === 'warden' &&
       this.password === '1234'
     ) {
       localStorage.setItem('loggedInRole', 'warden');
+
       this.router.navigate(['/warden']);
       return;
     }
 
+    // Superintendent Login
     if (
       this.role === 'superintendent' &&
       this.username === 'superintendent' &&
       this.password === '1234'
     ) {
-      localStorage.setItem('loggedInRole', 'superintendent');
+      localStorage.setItem(
+        'loggedInRole',
+        'superintendent'
+      );
+
       this.router.navigate(['/superintendent']);
       return;
     }

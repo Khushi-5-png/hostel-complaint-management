@@ -60,9 +60,10 @@ export class ComplaintFormComponent {
 
     formData.append(
       'complaint',
-      new Blob([JSON.stringify(complaint)], {
-        type: 'application/json'
-      })
+      new Blob(
+        [JSON.stringify(complaint)],
+        { type: 'application/json' }
+      )
     );
 
     if (this.photo) {
@@ -73,11 +74,23 @@ export class ComplaintFormComponent {
       'http://localhost:8080/complaints',
       formData
     ).subscribe({
+
       next: (response) => {
 
-        console.log('Complaint submitted:', response);
+        console.log(
+          'Complaint submitted:',
+          response
+        );
 
-        alert('Complaint submitted successfully!');
+        // Save the student's name for the Student Dashboard
+        localStorage.setItem(
+          'studentName',
+          this.studentName
+        );
+
+        alert(
+          'Complaint submitted successfully!'
+        );
 
         this.studentName = '';
         this.roomNumber = '';
@@ -92,8 +105,15 @@ export class ComplaintFormComponent {
       },
 
       error: (error) => {
-        console.error('Error submitting complaint:', error);
-        alert('Failed to submit complaint.');
+
+        console.error(
+          'Error submitting complaint:',
+          error
+        );
+
+        alert(
+          'Failed to submit complaint.'
+        );
       }
     });
   }

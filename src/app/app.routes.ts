@@ -4,6 +4,7 @@ import { WardenDashboardComponent } from './warden-dashboard';
 import { LoginComponent } from './login';
 import { SuperintendentDashboardComponent } from './superintendent-dashboard';
 import { HelpComponent } from './help';
+import { StudentDashboardComponent } from './student-dashboard';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,10 @@ export const routes: Routes = [
   {
     path: 'help',
     component: HelpComponent
+  },
+  {
+    path: 'student-dashboard',
+    component: StudentDashboardComponent
   },
   {
     path: '',
