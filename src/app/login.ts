@@ -13,29 +13,93 @@ import { Router } from '@angular/router';
 
       <div class="login-card">
 
+        <!-- Centurion University Logo -->
+        <div class="login-logo">
+          <img
+            src="centurion-logo.jpg"
+            alt="Centurion University Logo"
+          >
+        </div>
+
         <h1>Hostel Management Login</h1>
 
         <p class="subtitle">
-          Login to continue
+          Hostel Complaint Management System
         </p>
 
+
+        <!-- Role -->
         <div class="form-group">
-          <label for="role">Login As</label>
+
+          <label for="role">
+            Login As
+          </label>
 
           <select
             id="role"
             name="role"
             [(ngModel)]="role"
           >
-            <option value="">Select Role</option>
-            <option value="student">Student</option>
-            <option value="warden">Warden</option>
-            <option value="superintendent">Superintendent</option>
+
+            <option value="">
+              Select Role
+            </option>
+
+            <option value="student">
+              Student
+            </option>
+
+            <option value="warden">
+              Warden
+            </option>
+
+            <option value="superintendent">
+              Superintendent
+            </option>
+
           </select>
+
         </div>
 
+
+        <!-- Warden Selection -->
+        <div
+          class="form-group"
+          *ngIf="role === 'warden'"
+        >
+
+          <label for="warden">
+            Select Warden
+          </label>
+
+          <select
+            id="warden"
+            name="warden"
+            [(ngModel)]="selectedWarden"
+          >
+
+            <option value="">
+              Select Warden
+            </option>
+
+            <option
+              *ngFor="let warden of wardens"
+              [value]="warden"
+            >
+              {{ warden }}
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- Username -->
         <div class="form-group">
-          <label for="username">Username</label>
+
+          <label for="username">
+            Username
+          </label>
 
           <input
             type="text"
@@ -43,11 +107,17 @@ import { Router } from '@angular/router';
             name="username"
             [(ngModel)]="username"
             placeholder="Enter username"
-          />
+          >
+
         </div>
 
+
+        <!-- Password -->
         <div class="form-group">
-          <label for="password">Password</label>
+
+          <label for="password">
+            Password
+          </label>
 
           <input
             type="password"
@@ -55,13 +125,21 @@ import { Router } from '@angular/router';
             name="password"
             [(ngModel)]="password"
             placeholder="Enter password"
-          />
+          >
+
         </div>
 
-        <button type="button" (click)="login()">
+
+        <!-- Login -->
+        <button
+          type="button"
+          (click)="login()"
+        >
           Login
         </button>
 
+
+        <!-- Error -->
         <p
           class="error"
           *ngIf="errorMessage"
@@ -79,18 +157,42 @@ export class LoginComponent {
   role = '';
   username = '';
   password = '';
+
+  selectedWarden = '';
+
   errorMessage = '';
 
-  constructor(private router: Router) {}
+
+  wardens = [
+    'Pramila Dash',
+    'Parbati Mahapatra',
+    'Rashmi Rekha Swain',
+    'Binod Manjari',
+    'Kanaklata Jena'
+  ];
+
+
+  constructor(
+    private router: Router
+  ) {}
+
 
   login() {
 
     this.errorMessage = '';
 
-    if (!this.role || !this.username || !this.password) {
-      this.errorMessage = 'Please fill in all fields.';
+    if (
+      !this.role ||
+      !this.username ||
+      !this.password
+    ) {
+
+      this.errorMessage =
+        'Please fill in all required fields.';
+
       return;
     }
+
 
     // Student Login
     if (
@@ -98,24 +200,64 @@ export class LoginComponent {
       this.username.toLowerCase() === 'khushi' &&
       this.password === '1234'
     ) {
-      localStorage.setItem('loggedInRole', 'student');
-      localStorage.setItem('studentName', 'Khushi');
 
-      this.router.navigate(['/student-dashboard']);
+      localStorage.setItem(
+        'loggedInRole',
+        'student'
+      );
+
+      localStorage.setItem(
+        'studentName',
+        'Khushi'
+      );
+
+      this.router.navigate([
+        '/student-dashboard'
+      ]);
+
       return;
     }
+
 
     // Warden Login
-    if (
-      this.role === 'warden' &&
-      this.username === 'warden' &&
-      this.password === '1234'
-    ) {
-      localStorage.setItem('loggedInRole', 'warden');
+    if (this.role === 'warden') {
 
-      this.router.navigate(['/warden']);
+      if (!this.selectedWarden) {
+
+        this.errorMessage =
+          'Please select a warden.';
+
+        return;
+      }
+
+      if (
+        this.username === 'warden' &&
+        this.password === '1234'
+      ) {
+
+        localStorage.setItem(
+          'loggedInRole',
+          'warden'
+        );
+
+        localStorage.setItem(
+          'loggedInWarden',
+          this.selectedWarden
+        );
+
+        this.router.navigate([
+          '/warden'
+        ]);
+
+        return;
+      }
+
+      this.errorMessage =
+        'Invalid warden username or password.';
+
       return;
     }
+
 
     // Superintendent Login
     if (
@@ -123,15 +265,21 @@ export class LoginComponent {
       this.username === 'superintendent' &&
       this.password === '1234'
     ) {
+
       localStorage.setItem(
         'loggedInRole',
         'superintendent'
       );
 
-      this.router.navigate(['/superintendent']);
+      this.router.navigate([
+        '/superintendent'
+      ]);
+
       return;
     }
 
-    this.errorMessage = 'Invalid username or password.';
+
+    this.errorMessage =
+      'Invalid username or password.';
   }
 }

@@ -315,6 +315,36 @@ textarea {
   line-height: 1.6;
 }
 
+
+/* =========================
+   NEED HELP
+   ========================= */
+
+.need-help-card {
+  border-top: 4px solid #1f4f7a;
+}
+
+.help-button {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+  padding: 11px 15px;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid #1f4f7a;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #1f4f7a;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.help-button:hover {
+  background: #1f4f7a;
+  color: #ffffff;
+}
+
 .admin-contact {
   margin-top: 18px;
   display: flex;
@@ -568,6 +598,42 @@ textarea {
   font-size: 13px;
 }
 
+
+/* =========================
+   COMPLAINT STATUS
+   ========================= */
+
+.status-section {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 11px;
+  margin-top: 3px;
+  border-radius: 5px;
+  background: #fff7e6;
+  color: #8a5a00;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-update {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.status-controls {
+  margin-top: 7px;
+}
+
+.status-controls select {
+  width: 220px;
+}
+
 .empty-state {
   padding: 35px 20px;
   text-align: center;
@@ -610,9 +676,54 @@ textarea {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
 }
 
+.login-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.login-logo img {
+  width: 115px;
+  height: 115px;
+  object-fit: contain;
+  display: block;
+}
+
 .login-card h1 {
+  margin: 0 0 7px;
+  text-align: center;
   font-size: 23px;
   color: #173b63;
+}
+
+.login-card .subtitle {
+  margin: 0 0 25px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.login-card .form-group {
+  margin-bottom: 18px;
+}
+
+.login-card button {
+  width: 100%;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #1f4f7a;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.login-card button:hover {
+  background: #173c5c;
 }
 
 .error {
@@ -620,6 +731,151 @@ textarea {
   text-align: center;
   color: #b42318;
   font-size: 14px;
+}
+
+
+/* =========================
+   HELP PAGE
+   ========================= */
+
+.help-page {
+  min-height: 100vh;
+  background: #f4f6f9;
+}
+
+.help-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 40px;
+  background: #173b63;
+  color: #ffffff;
+  border-bottom: 4px solid #d8a84e;
+}
+
+.help-header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.help-header p {
+  margin: 5px 0 0;
+  color: #dbe7f2;
+  font-size: 14px;
+}
+
+.help-hostel {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  gap: 4px;
+}
+
+.help-hostel span {
+  color: #dbe7f2;
+  font-size: 12px;
+}
+
+.help-hostel strong {
+  font-size: 15px;
+}
+
+.help-main {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 35px 25px 55px;
+}
+
+.help-title {
+  margin-bottom: 25px;
+}
+
+.help-title h2 {
+  margin: 0 0 7px;
+  color: #1f2937;
+  font-size: 23px;
+}
+
+.help-title p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.help-card {
+  margin-bottom: 20px;
+  padding: 23px;
+  background: #ffffff;
+  border: 1px solid #dde3ea;
+  border-radius: 9px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+.help-card h3 {
+  margin: 0 0 16px;
+  color: #173b63;
+  font-size: 17px;
+}
+
+.help-card p {
+  margin: 6px 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.contact-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.contact-row:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.contact-row span {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.contact-row strong {
+  color: #374151;
+  font-size: 13px;
+}
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.contact-item:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.contact-item span {
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.contact-item strong {
+  color: #6b7280;
+  font-size: 13px;
 }
 
 
@@ -646,6 +902,7 @@ textarea {
   }
 }
 
+
 @media (max-width: 650px) {
 
   .portal-header-content {
@@ -669,11 +926,6 @@ textarea {
 
   .section-header {
     padding: 20px;
-  }
-
-  .student-help-section {
-    margin-left: 20px;
-    margin-right: 20px;
   }
 
   .dashboard {
@@ -701,5 +953,31 @@ textarea {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+  }
+
+  .status-controls select {
+    width: 100%;
+  }
+
+  .help-header {
+    padding: 18px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .help-hostel {
+    text-align: left;
+  }
+
+  .help-main {
+    padding: 25px 15px 40px;
+  }
+
+  .contact-row,
+  .contact-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
   }
 }

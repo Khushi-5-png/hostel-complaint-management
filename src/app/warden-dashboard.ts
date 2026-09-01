@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-warden-dashboard',
   standalone: true,
   imports: [
     CommonModule,
-    HttpClientModule,
-    FormsModule
+    HttpClientModule
   ],
   styleUrl: './app.css',
   template: `
@@ -27,51 +25,34 @@ import { FormsModule } from '@angular/forms';
         </div>
       </header>
 
-      <!-- Warden Selection -->
+
+      <!-- Warden Information -->
       <section class="dashboard-section">
+
         <h2>Warden Information</h2>
 
-        <div class="warden-select">
-          <label for="warden">
-            Select Warden
-          </label>
+        <div class="warden-contact">
 
-          <select
-            id="warden"
-            name="warden"
-            [(ngModel)]="selectedWarden"
-            (change)="filterComplaints()"
-          >
-            <option value="">Select Warden</option>
-
-            <option
-              *ngFor="let warden of wardens"
-              [value]="warden"
-            >
-              {{ warden }}
-            </option>
-          </select>
-        </div>
-
-        <div
-          class="warden-contact"
-          *ngIf="selectedWarden"
-        >
           <div>
             <span class="label">Warden</span>
-            <strong>{{ selectedWarden }}</strong>
+            <strong>{{ loggedInWarden }}</strong>
           </div>
 
           <div>
             <span class="label">Contact Number</span>
             <strong>{{ getWardenPhone() }}</strong>
           </div>
+
         </div>
+
       </section>
 
-      <!-- Contact Administration -->
+
+      <!-- Need Help -->
       <section class="contact-section">
+
         <h2>Need Help?</h2>
+
         <p>
           For assistance regarding hostel complaints,
           contact the hostel administration.
@@ -83,31 +64,29 @@ import { FormsModule } from '@angular/forms';
             {{ hostelEmail }}
           </span>
         </div>
+
       </section>
 
-      <!-- Complaint Section -->
+
+      <!-- Assigned Complaints -->
       <section class="dashboard-section">
 
         <div class="section-heading">
+
           <div>
             <h2>Assigned Complaints</h2>
 
-            <p *ngIf="selectedWarden">
-              Complaints assigned to {{ selectedWarden }}
-            </p>
-
-            <p *ngIf="!selectedWarden">
-              Select a warden to view assigned complaints.
+            <p>
+              Complaints assigned to {{ loggedInWarden }}
             </p>
           </div>
 
-          <div
-            class="complaint-count"
-            *ngIf="selectedWarden"
-          >
+          <div class="complaint-count">
             {{ filteredComplaints.length }}
           </div>
+
         </div>
+
 
         <!-- Complaint Cards -->
         <div
@@ -116,12 +95,17 @@ import { FormsModule } from '@angular/forms';
         >
 
           <div class="complaint-header">
-            <h3>Complaint #{{ complaint.id }}</h3>
+
+            <h3>
+              Complaint #{{ complaint.id }}
+            </h3>
 
             <span class="complaint-type">
               {{ complaint.complaintType || 'General' }}
             </span>
+
           </div>
+
 
           <div class="complaint-details">
 
@@ -147,26 +131,69 @@ import { FormsModule } from '@angular/forms';
             </div>
 
             <div>
-              <span class="label">Superintendent</span>
+              <span class="label">Status</span>
               <strong>
-                {{ complaint.superintendent || 'Not sent' }}
+                {{ complaint.status || 'Pending' }}
               </strong>
             </div>
 
           </div>
 
+
+          <!-- Description -->
           <div class="description">
-            <span class="label">Description</span>
+
+            <span class="label">
+              Description
+            </span>
+
             <p>
               {{ complaint.description || 'No description provided.' }}
             </p>
+
           </div>
 
+
+          <!-- Status Update -->
+          <div class="status-update">
+
+            <span class="label">
+              Update Complaint Status
+            </span>
+
+            <div class="status-controls">
+
+              <select
+                [value]="complaint.status || 'Pending'"
+                (change)="onStatusChange(complaint, $event)"
+              >
+                <option value="Pending">
+                  Pending
+                </option>
+
+                <option value="In Progress">
+                  In Progress
+                </option>
+
+                <option value="Resolved">
+                  Resolved
+                </option>
+              </select>
+
+            </div>
+
+          </div>
+
+
+          <!-- Photo -->
           <div
             class="photo-section"
             *ngIf="complaint.photoPath"
           >
-            <span class="label">Supporting Photograph</span>
+
+            <span class="label">
+              Supporting Photograph
+            </span>
 
             <a
               [href]="'http://localhost:8080/complaints/photo/' + complaint.photoPath.split('/').pop()"
@@ -174,7 +201,9 @@ import { FormsModule } from '@angular/forms';
             >
               View Photograph
             </a>
+
           </div>
+
 
           <div
             class="no-photo"
@@ -185,16 +214,20 @@ import { FormsModule } from '@angular/forms';
 
         </div>
 
+
         <!-- No Complaints -->
         <div
           class="empty-state"
-          *ngIf="selectedWarden && filteredComplaints.length === 0"
+          *ngIf="filteredComplaints.length === 0"
         >
+
           <h3>No Complaints Assigned</h3>
+
           <p>
             There are currently no complaints assigned to
-            {{ selectedWarden }}.
+            {{ loggedInWarden }}.
           </p>
+
         </div>
 
       </section>
@@ -207,18 +240,10 @@ export class WardenDashboardComponent implements OnInit {
   complaints: any[] = [];
   filteredComplaints: any[] = [];
 
-  selectedWarden = '';
+  loggedInWarden = '';
 
   hostelName = 'Block B Hostel';
   hostelEmail = 'hostel@college.edu';
-
-  wardens = [
-    'Pramila Dash',
-    'Parbati Mahapatra',
-    'Rashmi Rekha Swain',
-    'Binod Manjari',
-    'Kanaklata Jena'
-  ];
 
   wardenPhones: { [key: string]: string } = {
     'Pramila Dash': '9XXXXXXXXX',
@@ -228,47 +253,125 @@ export class WardenDashboardComponent implements OnInit {
     'Kanaklata Jena': '9XXXXXXXXX'
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+  ) {}
 
   ngOnInit() {
+
+    this.loggedInWarden =
+      localStorage.getItem('loggedInWarden') || '';
+
     this.loadComplaints();
   }
 
+
   loadComplaints() {
+
     this.http.get<any[]>(
       'http://localhost:8080/complaints'
     ).subscribe({
+
       next: (data) => {
+
         this.complaints = data;
-        console.log('All complaints:', this.complaints);
+
+        this.filterComplaints();
+
+        console.log(
+          'Logged-in warden:',
+          this.loggedInWarden
+        );
+
+        console.log(
+          'Warden complaints:',
+          this.filteredComplaints
+        );
+
       },
 
       error: (error) => {
-        console.error('Error loading complaints:', error);
+
+        console.error(
+          'Error loading complaints:',
+          error
+        );
+
       }
+
     });
   }
 
+
   filterComplaints() {
 
-    if (!this.selectedWarden) {
+    if (!this.loggedInWarden) {
       this.filteredComplaints = [];
       return;
     }
 
-    this.filteredComplaints = this.complaints.filter(
-      complaint => complaint.warden === this.selectedWarden
-    );
+    this.filteredComplaints =
+      this.complaints.filter(
+        complaint =>
+          (complaint.warden || '')
+            .trim()
+            .toLowerCase() ===
+          this.loggedInWarden
+            .trim()
+            .toLowerCase()
+      );
+  }
 
-    console.log(
-      'Complaints for',
-      this.selectedWarden,
-      ':',
-      this.filteredComplaints
+
+  getWardenPhone(): string {
+
+    return (
+      this.wardenPhones[this.loggedInWarden] ||
+      'Not available'
     );
   }
 
-  getWardenPhone(): string {
-    return this.wardenPhones[this.selectedWarden] || 'Not available';
+
+  onStatusChange(
+    complaint: any,
+    event: Event
+  ) {
+
+    const select =
+      event.target as HTMLSelectElement;
+
+    const newStatus =
+      select.value;
+
+    this.http.put<any>(
+      `http://localhost:8080/complaints/${complaint.id}/status?status=${encodeURIComponent(newStatus)}`,
+      {}
+    ).subscribe({
+
+      next: (updatedComplaint) => {
+
+        complaint.status =
+          updatedComplaint.status;
+
+        console.log(
+          'Status updated:',
+          updatedComplaint
+        );
+
+      },
+
+      error: (error) => {
+
+        console.error(
+          'Error updating status:',
+          error
+        );
+
+        alert(
+          'Failed to update complaint status.'
+        );
+      }
+
+    });
   }
 }
