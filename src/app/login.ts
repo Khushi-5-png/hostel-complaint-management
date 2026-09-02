@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, FormsModule],
   styleUrl: './app.css',
+
   template: `
     <div class="login-container">
 
@@ -21,14 +22,10 @@ import { Router } from '@angular/router';
           >
         </div>
 
-        <h1>Hostel Management Login</h1>
-
-        <p class="subtitle">
-          Hostel Complaint Management System
-        </p>
+        <h1>Login</h1>
 
 
-        <!-- Role -->
+        <!-- ROLE -->
         <div class="form-group">
 
           <label for="role">
@@ -39,6 +36,7 @@ import { Router } from '@angular/router';
             id="role"
             name="role"
             [(ngModel)]="role"
+            (change)="resetFields()"
           >
 
             <option value="">
@@ -62,19 +60,19 @@ import { Router } from '@angular/router';
         </div>
 
 
-        <!-- Warden Selection -->
+        <!-- WARDEN -->
         <div
           class="form-group"
           *ngIf="role === 'warden'"
         >
 
-          <label for="warden">
-            Select Warden
+          <label for="selectedWarden">
+            Warden
           </label>
 
           <select
-            id="warden"
-            name="warden"
+            id="selectedWarden"
+            name="selectedWarden"
             [(ngModel)]="selectedWarden"
           >
 
@@ -94,7 +92,7 @@ import { Router } from '@angular/router';
         </div>
 
 
-        <!-- Username -->
+        <!-- USERNAME -->
         <div class="form-group">
 
           <label for="username">
@@ -112,7 +110,7 @@ import { Router } from '@angular/router';
         </div>
 
 
-        <!-- Password -->
+        <!-- PASSWORD -->
         <div class="form-group">
 
           <label for="password">
@@ -130,7 +128,7 @@ import { Router } from '@angular/router';
         </div>
 
 
-        <!-- Login -->
+        <!-- LOGIN -->
         <button
           type="button"
           (click)="login()"
@@ -139,7 +137,7 @@ import { Router } from '@angular/router';
         </button>
 
 
-        <!-- Error -->
+        <!-- ERROR -->
         <p
           class="error"
           *ngIf="errorMessage"
@@ -177,10 +175,22 @@ export class LoginComponent {
   ) {}
 
 
+  resetFields() {
+
+    this.username = '';
+    this.password = '';
+    this.selectedWarden = '';
+    this.errorMessage = '';
+
+  }
+
+
   login() {
 
     this.errorMessage = '';
 
+
+    // Empty fields
     if (
       !this.role ||
       !this.username ||
@@ -191,35 +201,52 @@ export class LoginComponent {
         'Please fill in all required fields.';
 
       return;
+
     }
 
 
-    // Student Login
-    if (
-      this.role === 'student' &&
-      this.username.toLowerCase() === 'khushi' &&
-      this.password === '1234'
-    ) {
+    // =========================
+    // STUDENT
+    // =========================
 
-      localStorage.setItem(
-        'loggedInRole',
-        'student'
-      );
+    if (this.role === 'student') {
 
-      localStorage.setItem(
-        'studentName',
-        'Khushi'
-      );
+      if (
+        this.username.trim().toLowerCase() === 'khushi' &&
+        this.password === '1234'
+      ) {
 
-      this.router.navigate([
-        '/student-dashboard'
-      ]);
+        localStorage.setItem(
+          'loggedInRole',
+          'student'
+        );
+
+        localStorage.setItem(
+          'studentName',
+          'Khushi'
+        );
+
+        this.router.navigate([
+          '/student-dashboard'
+        ]);
+
+        return;
+
+      }
+
+
+      this.errorMessage =
+        'Invalid student username or password.';
 
       return;
+
     }
 
 
-    // Warden Login
+    // =========================
+    // WARDEN
+    // =========================
+
     if (this.role === 'warden') {
 
       if (!this.selectedWarden) {
@@ -228,10 +255,13 @@ export class LoginComponent {
           'Please select a warden.';
 
         return;
+
       }
 
+
       if (
-        this.username === 'warden' &&
+        this.username.trim().toLowerCase() ===
+        'warden' &&
         this.password === '1234'
       ) {
 
@@ -250,36 +280,55 @@ export class LoginComponent {
         ]);
 
         return;
+
       }
+
 
       this.errorMessage =
         'Invalid warden username or password.';
 
       return;
+
     }
 
 
-    // Superintendent Login
-    if (
-      this.role === 'superintendent' &&
-      this.username === 'superintendent' &&
-      this.password === '1234'
-    ) {
+    // =========================
+    // SUPERINTENDENT
+    // =========================
 
-      localStorage.setItem(
-        'loggedInRole',
-        'superintendent'
-      );
+    if (this.role === 'superintendent') {
 
-      this.router.navigate([
-        '/superintendent'
-      ]);
+      if (
+        this.username.trim().toLowerCase() ===
+        'superintendent' &&
+        this.password === '1234'
+      ) {
+
+        localStorage.setItem(
+          'loggedInRole',
+          'superintendent'
+        );
+
+        this.router.navigate([
+          '/superintendent'
+        ]);
+
+        return;
+
+      }
+
+
+      this.errorMessage =
+        'Invalid superintendent username or password.';
 
       return;
+
     }
 
 
     this.errorMessage =
-      'Invalid username or password.';
+      'Invalid login details.';
+
   }
+
 }

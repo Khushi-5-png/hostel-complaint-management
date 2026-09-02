@@ -1,172 +1,380 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+import {
+  HttpClient,
+  HttpClientModule
+} from '@angular/common/http';
+
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-warden-dashboard',
   standalone: true,
+
   imports: [
     CommonModule,
     HttpClientModule
   ],
+
   styleUrl: './app.css',
+
   template: `
-    <div class="dashboard">
+    <div class="warden-dashboard">
 
-      <!-- Header -->
-      <header class="dashboard-header">
-        <div>
-          <h1>Hostel Complaint Management System</h1>
-          <p>Warden Dashboard</p>
+      <!-- =========================
+           HEADER
+           ========================= -->
+
+      <header class="warden-header">
+
+        <div class="warden-header-left">
+
+          <img
+            src="centurion-logo.jpg"
+            alt="Centurion University Logo"
+            class="warden-logo"
+          >
+
+          <div>
+
+            <h1>
+              Hostel Complaint Management System
+            </h1>
+
+            <p>
+              Warden Portal
+            </p>
+
+          </div>
+
         </div>
 
-        <div class="hostel-name">
-          <strong>{{ hostelName }}</strong>
+
+        <div class="warden-header-right">
+
+          <div class="warden-profile">
+
+            <span class="warden-profile-label">
+              Logged in as
+            </span>
+
+            <strong>
+              {{ loggedInWarden }}
+            </strong>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="warden-logout"
+            (click)="logout()"
+          >
+            Logout
+          </button>
+
         </div>
+
       </header>
 
 
-      <!-- Warden Information -->
-      <section class="dashboard-section">
+      <!-- =========================
+           MAIN CONTENT
+           ========================= -->
 
-        <h2>Warden Information</h2>
-
-        <div class="warden-contact">
-
-          <div>
-            <span class="label">Warden</span>
-            <strong>{{ loggedInWarden }}</strong>
-          </div>
-
-          <div>
-            <span class="label">Contact Number</span>
-            <strong>{{ getWardenPhone() }}</strong>
-          </div>
-
-        </div>
-
-      </section>
+      <main class="warden-main">
 
 
-      <!-- Need Help -->
-      <section class="contact-section">
+        <!-- Page Heading -->
 
-        <h2>Need Help?</h2>
-
-        <p>
-          For assistance regarding hostel complaints,
-          contact the hostel administration.
-        </p>
-
-        <div class="contact-details">
-          <span>
-            <strong>Hostel Email:</strong>
-            {{ hostelEmail }}
-          </span>
-        </div>
-
-      </section>
-
-
-      <!-- Assigned Complaints -->
-      <section class="dashboard-section">
-
-        <div class="section-heading">
+        <section class="warden-page-heading">
 
           <div>
-            <h2>Assigned Complaints</h2>
+
+            <h2>
+              Warden Dashboard
+            </h2>
 
             <p>
-              Complaints assigned to {{ loggedInWarden }}
-            </p>
-          </div>
-
-          <div class="complaint-count">
-            {{ filteredComplaints.length }}
-          </div>
-
-        </div>
-
-
-        <!-- Complaint Cards -->
-        <div
-          class="complaint-card"
-          *ngFor="let complaint of filteredComplaints"
-        >
-
-          <div class="complaint-header">
-
-            <h3>
-              Complaint #{{ complaint.id }}
-            </h3>
-
-            <span class="complaint-type">
-              {{ complaint.complaintType || 'General' }}
-            </span>
-
-          </div>
-
-
-          <div class="complaint-details">
-
-            <div>
-              <span class="label">Student</span>
-              <strong>
-                {{ complaint.studentName || 'Not provided' }}
-              </strong>
-            </div>
-
-            <div>
-              <span class="label">Room Number</span>
-              <strong>
-                {{ complaint.roomNumber || 'Not provided' }}
-              </strong>
-            </div>
-
-            <div>
-              <span class="label">Block</span>
-              <strong>
-                {{ complaint.block || 'Not provided' }}
-              </strong>
-            </div>
-
-            <div>
-              <span class="label">Status</span>
-              <strong>
-                {{ complaint.status || 'Pending' }}
-              </strong>
-            </div>
-
-          </div>
-
-
-          <!-- Description -->
-          <div class="description">
-
-            <span class="label">
-              Description
-            </span>
-
-            <p>
-              {{ complaint.description || 'No description provided.' }}
+              View and manage complaints assigned to
+              {{ loggedInWarden }}.
             </p>
 
           </div>
 
+        </section>
 
-          <!-- Status Update -->
-          <div class="status-update">
 
-            <span class="label">
-              Update Complaint Status
+        <!-- =========================
+             WARDEN INFORMATION
+             ========================= -->
+
+        <section class="warden-info-card">
+
+          <h3 class="warden-info-title">
+            Warden Information
+          </h3>
+
+
+          <div class="warden-info-grid">
+
+            <div class="warden-info-item">
+
+              <span>
+                Warden Name
+              </span>
+
+              <strong>
+                {{ loggedInWarden }}
+              </strong>
+
+            </div>
+
+
+            <div class="warden-info-item">
+
+              <span>
+                Contact Number
+              </span>
+
+              <strong>
+                {{ getWardenPhone() }}
+              </strong>
+
+            </div>
+
+
+            <div class="warden-info-item">
+
+              <span>
+                Hostel
+              </span>
+
+              <strong>
+                {{ hostelName }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             SUMMARY
+             ========================= -->
+
+        <section class="warden-summary-grid">
+
+          <div class="warden-summary-card">
+
+            <span>
+              Assigned Complaints
             </span>
 
-            <div class="status-controls">
+            <strong>
+              {{ filteredComplaints.length }}
+            </strong>
+
+          </div>
+
+
+          <div class="warden-summary-card">
+
+            <span>
+              Pending
+            </span>
+
+            <strong>
+              {{ getPendingCount() }}
+            </strong>
+
+          </div>
+
+
+          <div class="warden-summary-card">
+
+            <span>
+              In Progress / Resolved
+            </span>
+
+            <strong>
+              {{ getActiveCount() }}
+            </strong>
+
+          </div>
+
+        </section>
+
+
+        <!-- =========================
+             COMPLAINTS
+             ========================= -->
+
+        <section class="warden-complaints-section">
+
+          <div class="warden-section-heading">
+
+            <div>
+
+              <h3>
+                Assigned Complaints
+              </h3>
+
+              <p>
+                Complaints assigned to
+                {{ loggedInWarden }}
+              </p>
+
+            </div>
+
+
+            <span class="warden-complaint-count">
+
+              {{ filteredComplaints.length }}
+
+            </span>
+
+          </div>
+
+
+          <!-- Complaint Cards -->
+
+          <div
+            class="warden-complaint-card"
+            *ngFor="let complaint of filteredComplaints"
+          >
+
+            <!-- Complaint Header -->
+
+            <div class="warden-complaint-header">
+
+              <h4>
+                Complaint #{{ complaint.id }}
+              </h4>
+
+              <span class="warden-complaint-type">
+                {{ complaint.complaintType || 'General' }}
+              </span>
+
+            </div>
+
+
+            <!-- Complaint Details -->
+
+            <div class="warden-complaint-details">
+
+
+              <!-- Student -->
+
+              <div class="warden-detail-item">
+
+                <span>
+                  Student
+                </span>
+
+                <strong>
+                  {{ complaint.studentName || 'Not provided' }}
+                </strong>
+
+              </div>
+
+
+              <!-- Room -->
+
+              <div class="warden-detail-item">
+
+                <span>
+                  Room Number
+                </span>
+
+                <strong>
+                  {{ complaint.roomNumber || 'Not provided' }}
+                </strong>
+
+              </div>
+
+
+              <!-- Block -->
+
+              <div class="warden-detail-item">
+
+                <span>
+                  Block
+                </span>
+
+                <strong>
+                  {{ complaint.block || 'Not provided' }}
+                </strong>
+
+              </div>
+
+
+              <!-- Status -->
+
+              <div class="warden-detail-item">
+
+                <span>
+                  Current Status
+                </span>
+
+                <strong
+                  class="status-badge"
+                  [ngClass]="
+                    getStatusClass(complaint.status)
+                  "
+                >
+                  {{ complaint.status || 'Pending' }}
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <!-- Description -->
+
+            <div class="warden-description">
+
+              <span class="warden-description-title">
+                Complaint Description
+              </span>
+
+              <p>
+                {{
+                  complaint.description ||
+                  'No description provided.'
+                }}
+              </p>
+
+            </div>
+
+
+            <!-- =========================
+                 STATUS UPDATE
+                 ========================= -->
+
+            <div class="warden-status-section">
+
+              <span class="warden-status-label">
+                Update Complaint Status
+              </span>
+
 
               <select
+                class="warden-status-select"
                 [value]="complaint.status || 'Pending'"
-                (change)="onStatusChange(complaint, $event)"
+                (change)="updateStatus(complaint, $event)"
               >
+
                 <option value="Pending">
                   Pending
                 </option>
@@ -178,161 +386,314 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
                 <option value="Resolved">
                   Resolved
                 </option>
+
               </select>
+
+            </div>
+
+
+            <!-- =========================
+                 PHOTO
+                 ========================= -->
+
+            <div
+              class="warden-photo-section"
+              *ngIf="complaint.photoPath"
+            >
+
+              <span>
+                Supporting Photograph
+              </span>
+
+              <a
+                [href]="
+                  'http://localhost:8080/complaints/photo/' +
+                  complaint.photoPath
+                "
+                target="_blank"
+              >
+                View Supporting Photograph
+              </a>
+
+            </div>
+
+
+            <div
+              class="warden-no-photo"
+              *ngIf="!complaint.photoPath"
+            >
+
+              No supporting photograph attached.
 
             </div>
 
           </div>
 
 
-          <!-- Photo -->
+          <!-- =========================
+               EMPTY STATE
+               ========================= -->
+
           <div
-            class="photo-section"
-            *ngIf="complaint.photoPath"
+            class="warden-empty-state"
+            *ngIf="filteredComplaints.length === 0"
           >
 
-            <span class="label">
-              Supporting Photograph
-            </span>
+            <h3>
+              No Complaints Assigned
+            </h3>
 
-            <a
-              [href]="'http://localhost:8080/complaints/photo/' + complaint.photoPath.split('/').pop()"
-              target="_blank"
-            >
-              View Photograph
-            </a>
+            <p>
+              There are currently no complaints
+              assigned to {{ loggedInWarden }}.
+            </p>
 
           </div>
 
+        </section>
 
-          <div
-            class="no-photo"
-            *ngIf="!complaint.photoPath"
-          >
-            No photograph attached
-          </div>
-
-        </div>
+      </main>
 
 
-        <!-- No Complaints -->
-        <div
-          class="empty-state"
-          *ngIf="filteredComplaints.length === 0"
-        >
+      <!-- =========================
+           FOOTER
+           ========================= -->
 
-          <h3>No Complaints Assigned</h3>
+      <footer class="warden-footer">
 
-          <p>
-            There are currently no complaints assigned to
-            {{ loggedInWarden }}.
-          </p>
+        <p>
+          Centurion University of Technology and Management
+        </p>
 
-        </div>
+        <span>
+          Hostel Complaint Management System
+        </span>
 
-      </section>
+      </footer>
 
     </div>
   `
 })
-export class WardenDashboardComponent implements OnInit {
+
+
+export class WardenDashboardComponent
+  implements OnInit {
+
 
   complaints: any[] = [];
+
   filteredComplaints: any[] = [];
 
   loggedInWarden = '';
 
   hostelName = 'Block B Hostel';
+
   hostelEmail = 'hostel@college.edu';
 
-  wardenPhones: { [key: string]: string } = {
+
+  wardenPhones: {
+    [key: string]: string
+  } = {
+
     'Pramila Dash': '9XXXXXXXXX',
+
     'Parbati Mahapatra': '9XXXXXXXXX',
+
     'Rashmi Rekha Swain': '9XXXXXXXXX',
+
     'Binod Manjari': '9XXXXXXXXX',
+
     'Kanaklata Jena': '9XXXXXXXXX'
+
   };
 
+
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
+
 
   ngOnInit() {
 
     this.loggedInWarden =
-      localStorage.getItem('loggedInWarden') || '';
+      localStorage.getItem(
+        'loggedInWarden'
+      ) || '';
 
     this.loadComplaints();
+
   }
 
 
   loadComplaints() {
 
-    this.http.get<any[]>(
-      'http://localhost:8080/complaints'
-    ).subscribe({
+    this.http
+      .get<any[]>(
+        'http://localhost:8080/complaints'
+      )
+      .subscribe({
 
-      next: (data) => {
+        next: (data) => {
 
-        this.complaints = data;
+          this.complaints = data;
 
-        this.filterComplaints();
+          this.filterComplaints();
 
-        console.log(
-          'Logged-in warden:',
-          this.loggedInWarden
-        );
+          this.cdr.detectChanges();
 
-        console.log(
-          'Warden complaints:',
-          this.filteredComplaints
-        );
+          console.log(
+            'Logged-in Warden:',
+            this.loggedInWarden
+          );
 
-      },
+          console.log(
+            'Assigned complaints:',
+            this.filteredComplaints
+          );
 
-      error: (error) => {
+        },
 
-        console.error(
-          'Error loading complaints:',
-          error
-        );
 
-      }
+        error: (error) => {
 
-    });
+          console.error(
+            'Error loading complaints:',
+            error
+          );
+
+        }
+
+      });
+
   }
 
 
   filterComplaints() {
 
     if (!this.loggedInWarden) {
+
       this.filteredComplaints = [];
+
       return;
+
     }
+
+
+    const loggedWarden =
+      this.loggedInWarden
+        .trim()
+        .toLowerCase();
+
 
     this.filteredComplaints =
       this.complaints.filter(
-        complaint =>
-          (complaint.warden || '')
+        (complaint) => {
+
+          const complaintWarden =
+            (
+              complaint.warden || ''
+            )
+              .trim()
+              .toLowerCase();
+
+
+          return (
+            complaintWarden ===
+            loggedWarden
+          );
+
+        }
+      );
+
+  }
+
+
+  getPendingCount(): number {
+
+    return this.filteredComplaints
+      .filter(
+        (complaint) =>
+          (
+            complaint.status ||
+            'Pending'
+          )
             .trim()
             .toLowerCase() ===
-          this.loggedInWarden
-            .trim()
-            .toLowerCase()
-      );
+          'pending'
+      )
+      .length;
+
   }
 
 
-  getWardenPhone(): string {
+  getActiveCount(): number {
 
-    return (
-      this.wardenPhones[this.loggedInWarden] ||
-      'Not available'
-    );
+    return this.filteredComplaints
+      .filter(
+        (complaint) => {
+
+          const status =
+            (
+              complaint.status ||
+              'Pending'
+            )
+              .trim()
+              .toLowerCase();
+
+
+          return (
+            status === 'in progress' ||
+            status === 'resolved'
+          );
+
+        }
+      )
+      .length;
+
   }
 
 
-  onStatusChange(
+  getStatusClass(
+    status: string
+  ): string {
+
+    const currentStatus =
+      (
+        status ||
+        'Pending'
+      )
+        .trim()
+        .toLowerCase();
+
+
+    if (
+      currentStatus ===
+      'resolved'
+    ) {
+
+      return 'status-resolved';
+
+    }
+
+
+    if (
+      currentStatus ===
+      'in progress'
+    ) {
+
+      return 'status-progress';
+
+    }
+
+
+    return 'status-pending';
+
+  }
+
+
+  updateStatus(
     complaint: any,
     event: Event
   ) {
@@ -340,38 +701,86 @@ export class WardenDashboardComponent implements OnInit {
     const select =
       event.target as HTMLSelectElement;
 
+
     const newStatus =
       select.value;
 
-    this.http.put<any>(
-      `http://localhost:8080/complaints/${complaint.id}/status?status=${encodeURIComponent(newStatus)}`,
-      {}
-    ).subscribe({
 
-      next: (updatedComplaint) => {
+    this.http
+      .put<any>(
+        `http://localhost:8080/complaints/${complaint.id}/status?status=${encodeURIComponent(newStatus)}`,
+        {}
+      )
+      .subscribe({
 
-        complaint.status =
-          updatedComplaint.status;
+        next: (updatedComplaint) => {
 
-        console.log(
-          'Status updated:',
-          updatedComplaint
-        );
+          complaint.status =
+            updatedComplaint.status;
 
-      },
 
-      error: (error) => {
+          this.cdr.detectChanges();
 
-        console.error(
-          'Error updating status:',
-          error
-        );
 
-        alert(
-          'Failed to update complaint status.'
-        );
-      }
+          console.log(
+            'Complaint status updated:',
+            updatedComplaint
+          );
 
-    });
+        },
+
+
+        error: (error) => {
+
+          console.error(
+            'Error updating complaint status:',
+            error
+          );
+
+
+          alert(
+            'Failed to update complaint status.'
+          );
+
+
+          select.value =
+            complaint.status ||
+            'Pending';
+
+        }
+
+      });
+
   }
+
+
+  getWardenPhone(): string {
+
+    return (
+      this.wardenPhones[
+        this.loggedInWarden
+        ] ||
+      'Not available'
+    );
+
+  }
+
+
+  logout() {
+
+    localStorage.removeItem(
+      'loggedInRole'
+    );
+
+    localStorage.removeItem(
+      'loggedInWarden'
+    );
+
+
+    this.router.navigate([
+      '/login'
+    ]);
+
+  }
+
 }
