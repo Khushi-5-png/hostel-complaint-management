@@ -1,59 +1,123 @@
 <div class="complaint-page">
 
-  <!-- Official Header -->
+  <!-- =========================
+       HEADER
+       ========================= -->
+
   <header class="portal-header">
+
     <div class="portal-header-content">
 
-      <div>
-        <h1>Hostel Complaint Management System</h1>
-        <p>Student Complaint Portal</p>
+      <div class="portal-brand">
+
+        <img
+          src="centurion-logo.jpg"
+          alt="Centurion University Logo"
+          class="portal-logo"
+        >
+
+        <div>
+
+          <h1>
+            Hostel Complaint Management System
+          </h1>
+
+          <p>
+            Student Complaint Portal
+          </p>
+
+        </div>
+
       </div>
 
+
       <div class="portal-hostel">
-        <span>Hostel</span>
-        <strong>Block B Hostel</strong>
+
+        <span>
+          Hostel
+        </span>
+
+        <strong>
+          Block B Hostel
+        </strong>
+
       </div>
 
     </div>
+
   </header>
 
 
-  <!-- Main Content -->
+  <!-- =========================
+       MAIN CONTENT
+       ========================= -->
+
   <main class="complaint-main">
 
+
+    <!-- PAGE TITLE -->
+
     <div class="page-title">
-      <h2>Submit a Hostel Complaint</h2>
+
+      <h2>
+        Submit a Hostel Complaint
+      </h2>
 
       <p>
         Please provide the details below to register your complaint.
       </p>
+
     </div>
 
 
+    <!-- =========================
+         TWO COLUMN LAYOUT
+         ========================= -->
+
     <div class="complaint-layout">
 
-      <!-- Complaint Form -->
+
+      <!-- =========================
+           COMPLAINT FORM
+           ========================= -->
+
       <section class="form-panel">
 
+
         <div class="section-header">
-          <h3>Complaint Details</h3>
+
+          <h3>
+            Complaint Details
+          </h3>
 
           <p>
             All required information should be provided.
           </p>
+
         </div>
 
 
-        <form (ngSubmit)="submitComplaint()">
+        <form
+          (ngSubmit)="submitComplaint()"
+        >
 
-          <!-- Student Information -->
+
+          <!-- =========================
+               STUDENT INFORMATION
+               ========================= -->
+
           <div class="form-section">
 
-            <h4>Student Information</h4>
+            <h4>
+              Student Information
+            </h4>
+
 
             <div class="form-grid">
 
+
               <!-- Student Name -->
+
               <div class="form-group">
 
                 <label for="studentName">
@@ -68,12 +132,13 @@
                   [(ngModel)]="studentName"
                   placeholder="Enter your full name"
                   required
-                />
+                >
 
               </div>
 
 
               <!-- Room Number -->
+
               <div class="form-group">
 
                 <label for="roomNumber">
@@ -88,12 +153,13 @@
                   [(ngModel)]="roomNumber"
                   placeholder="Enter room number"
                   required
-                />
+                >
 
               </div>
 
 
               <!-- Block -->
+
               <div class="form-group">
 
                 <label for="block">
@@ -130,6 +196,7 @@
 
 
               <!-- Warden -->
+
               <div class="form-group">
 
                 <label for="warden">
@@ -177,13 +244,19 @@
           </div>
 
 
-          <!-- Complaint Information -->
+          <!-- =========================
+               COMPLAINT INFORMATION
+               ========================= -->
+
           <div class="form-section">
 
-            <h4>Complaint Information</h4>
+            <h4>
+              Complaint Information
+            </h4>
 
 
             <!-- Complaint Type -->
+
             <div class="form-group">
 
               <label for="complaintType">
@@ -244,6 +317,7 @@
 
 
             <!-- Description -->
+
             <div class="form-group">
 
               <label for="description">
@@ -264,6 +338,7 @@
 
 
             <!-- Photo -->
+
             <div class="form-group">
 
               <label for="photo">
@@ -275,7 +350,7 @@
                 id="photo"
                 accept="image/*"
                 (change)="onPhotoSelected($event)"
-              />
+              >
 
               <small>
                 Attach a photograph when it helps explain the issue.
@@ -286,10 +361,16 @@
           </div>
 
 
-          <!-- Escalation -->
+          <!-- =========================
+               ESCALATION
+               ========================= -->
+
           <div class="form-section">
 
-            <h4>Escalation</h4>
+            <h4>
+              Escalation
+            </h4>
+
 
             <div class="form-group">
 
@@ -301,6 +382,7 @@
 
               <div class="radio-group">
 
+
                 <label>
 
                   <input
@@ -308,7 +390,7 @@
                     name="sendToSuperintendent"
                     [(ngModel)]="sendToSuperintendent"
                     [value]="true"
-                  />
+                  >
 
                   Yes
 
@@ -322,7 +404,7 @@
                     name="sendToSuperintendent"
                     [(ngModel)]="sendToSuperintendent"
                     [value]="false"
-                  />
+                  >
 
                   No
 
@@ -334,6 +416,7 @@
 
 
             <!-- Superintendent -->
+
             <div
               class="form-group"
               *ngIf="sendToSuperintendent"
@@ -360,10 +443,15 @@
           </div>
 
 
-          <!-- Submit -->
+          <!-- =========================
+               SUBMIT
+               ========================= -->
+
           <div class="form-actions">
 
-            <button type="submit">
+            <button
+              type="submit"
+            >
               Submit Complaint
             </button>
 
@@ -374,13 +462,20 @@
       </section>
 
 
-      <!-- Right Side -->
+      <!-- =========================
+           RIGHT SIDE
+           ========================= -->
+
       <aside class="administration-panel">
 
+
         <!-- Need Help -->
+
         <div class="admin-card need-help-card">
 
-          <h3>Need Help?</h3>
+          <h3>
+            Need Help?
+          </h3>
 
           <p>
             For assistance regarding hostel complaints
@@ -397,15 +492,19 @@
         </div>
 
 
-        <!-- Before You Submit -->
+        <!-- Before Submit -->
+
         <div class="admin-card information-card">
 
-          <h3>Before You Submit</h3>
+          <h3>
+            Before You Submit
+          </h3>
 
           <p>
             Please ensure that the complaint information
             is accurate and complete.
           </p>
+
 
           <ul>
 
@@ -434,5 +533,22 @@
     </div>
 
   </main>
+
+
+  <!-- =========================
+       FOOTER
+       ========================= -->
+
+  <footer class="student-footer">
+
+    <p>
+      Centurion University of Technology and Management
+    </p>
+
+    <span>
+      Hostel Complaint Management System
+    </span>
+
+  </footer>
 
 </div>

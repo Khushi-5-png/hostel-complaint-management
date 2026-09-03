@@ -15,6 +15,13 @@ body {
   color: #1f2937;
 }
 
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
 
 /* =========================
    STUDENT COMPLAINT PORTAL
@@ -27,72 +34,92 @@ body {
 
 
 /* =========================
-   OFFICIAL HEADER
+   COMPLAINT HEADER
    ========================= */
 
 .portal-header {
+  width: 100%;
   background: #173b63;
   color: #ffffff;
   border-bottom: 4px solid #d8a84e;
 }
 
 .portal-header-content {
-  max-width: 1250px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 30px;
+  padding: 16px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+.portal-brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.portal-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  display: block;
+  padding: 3px;
+  background: #ffffff;
+  border-radius: 5px;
+}
+
 .portal-header h1 {
   margin: 0;
-  text-align: left;
-  font-size: 24px;
+  color: #ffffff;
+  font-size: 22px;
   font-weight: 700;
 }
 
 .portal-header p {
-  margin: 5px 0 0;
+  margin: 4px 0 0;
   color: #dbe7f2;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .portal-hostel {
-  text-align: right;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 4px;
 }
 
 .portal-hostel span {
-  font-size: 12px;
   color: #dbe7f2;
+  font-size: 11px;
 }
 
 .portal-hostel strong {
-  font-size: 15px;
+  color: #ffffff;
+  font-size: 14px;
 }
 
 
 /* =========================
-   MAIN COMPLAINT CONTENT
+   COMPLAINT MAIN
    ========================= */
 
 .complaint-main {
-  max-width: 1250px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 35px 30px 55px;
+  padding: 40px 30px 60px;
 }
 
 .page-title {
-  margin-bottom: 25px;
+  margin-bottom: 28px;
 }
 
 .page-title h2 {
-  margin: 0 0 7px;
-  color: #1f2937;
-  font-size: 23px;
+  margin: 0 0 8px;
+  color: #173b63;
+  font-size: 24px;
   font-weight: 700;
 }
 
@@ -104,13 +131,13 @@ body {
 
 
 /* =========================
-   TWO COLUMN
+   COMPLAINT TWO COLUMN
    ========================= */
 
 .complaint-layout {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(280px, 0.85fr);
-  gap: 25px;
+  gap: 28px;
   align-items: start;
 }
 
@@ -120,22 +147,23 @@ body {
    ========================= */
 
 .form-panel {
+  width: 100%;
   background: #ffffff;
-  border: 1px solid #dde3ea;
+  border: 1px solid #dce3ea;
   border-radius: 10px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
   overflow: hidden;
 }
 
 .section-header {
-  padding: 23px 28px;
+  padding: 24px 28px;
   border-bottom: 1px solid #e5e7eb;
 }
 
 .section-header h3 {
-  margin: 0 0 5px;
-  font-size: 18px;
+  margin: 0 0 6px;
   color: #173b63;
+  font-size: 18px;
 }
 
 .section-header p {
@@ -146,27 +174,28 @@ body {
 
 
 /* =========================
-   FORM
+   FORM CONTENT
    ========================= */
 
 .form-panel form {
-  padding: 26px 28px;
+  padding: 28px;
 }
 
 .form-section {
-  padding-bottom: 25px;
-  margin-bottom: 25px;
+  margin-bottom: 28px;
+  padding-bottom: 28px;
   border-bottom: 1px solid #e5e7eb;
 }
 
-.form-section:last-of-type {
+.form-section:last-child {
   margin-bottom: 0;
+  border-bottom: none;
 }
 
 .form-section h4 {
-  margin: 0 0 18px;
-  font-size: 15px;
+  margin: 0 0 20px;
   color: #374151;
+  font-size: 15px;
   font-weight: 700;
 }
 
@@ -186,7 +215,7 @@ body {
 
 .form-group label {
   display: block;
-  margin-bottom: 7px;
+  margin-bottom: 8px;
   color: #374151;
   font-size: 13px;
   font-weight: 600;
@@ -201,12 +230,11 @@ input:not([type="radio"]),
 select,
 textarea {
   width: 100%;
-  padding: 11px 12px;
+  padding: 12px 13px;
   border: 1px solid #cbd5df;
   border-radius: 6px;
   background: #ffffff;
   color: #1f2937;
-  font-family: inherit;
   font-size: 14px;
 }
 
@@ -214,12 +242,12 @@ input:not([type="radio"]):focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: #2d5f8b;
-  box-shadow: 0 0 0 3px rgba(45, 95, 139, 0.1);
+  border-color: #1f4f7a;
+  box-shadow: 0 0 0 3px rgba(31, 79, 122, 0.1);
 }
 
 textarea {
-  min-height: 135px;
+  min-height: 140px;
   resize: vertical;
 }
 
@@ -237,8 +265,8 @@ textarea {
 
 .radio-group {
   display: flex;
-  gap: 28px;
   align-items: center;
+  gap: 28px;
 }
 
 .radio-group label {
@@ -246,9 +274,7 @@ textarea {
   align-items: center;
   gap: 7px;
   margin: 0;
-  font-size: 13px;
   font-weight: 500;
-  cursor: pointer;
 }
 
 .radio-group input[type="radio"] {
@@ -257,7 +283,7 @@ textarea {
 
 
 /* =========================
-   SUBMIT BUTTON
+   SUBMIT
    ========================= */
 
 .form-actions {
@@ -271,7 +297,6 @@ textarea {
   border-radius: 6px;
   background: #1f4f7a;
   color: #ffffff;
-  font-family: inherit;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -283,34 +308,35 @@ textarea {
 
 
 /* =========================
-   ADMINISTRATION PANEL
+   RIGHT PANEL
    ========================= */
 
 .administration-panel {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
 .admin-card {
+  width: 100%;
+  padding: 24px;
   background: #ffffff;
-  border: 1px solid #dde3ea;
+  border: 1px solid #dce3ea;
   border-radius: 10px;
-  padding: 22px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
 }
 
 .admin-card h3 {
-  margin: 0 0 9px;
-  font-size: 17px;
+  margin: 0 0 12px;
   color: #173b63;
+  font-size: 17px;
 }
 
 .admin-card > p {
   margin: 0;
   color: #6b7280;
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 
@@ -325,7 +351,7 @@ textarea {
 .help-button {
   display: block;
   width: 100%;
-  margin-top: 18px;
+  margin-top: 20px;
   padding: 11px 15px;
   text-align: center;
   text-decoration: none;
@@ -335,6 +361,7 @@ textarea {
   color: #1f4f7a;
   font-size: 13px;
   font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .help-button:hover {
@@ -344,19 +371,121 @@ textarea {
 
 
 /* =========================
-   BEFORE YOU SUBMIT
+   BEFORE SUBMIT
    ========================= */
 
 .information-card ul {
-  margin: 16px 0 0;
-  padding-left: 18px;
+  margin: 18px 0 0;
+  padding-left: 20px;
 }
 
 .information-card li {
-  margin-bottom: 9px;
+  margin-bottom: 10px;
   color: #4b5563;
   font-size: 13px;
-  line-height: 1.45;
+  line-height: 1.5;
+}
+
+
+/* =========================
+   LOGIN
+   ========================= */
+
+.login-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background: #f4f6f9;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 430px;
+  padding: 40px;
+  background: #ffffff;
+  border: 1px solid #d9e1e8;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(23, 59, 99, 0.10);
+}
+
+.login-logo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.login-logo img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  display: block;
+}
+
+.login-card h1 {
+  margin: 0 0 28px;
+  text-align: center;
+  color: #173b63;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.login-card .form-group {
+  margin-bottom: 18px;
+}
+
+.login-card .form-group label {
+  display: block;
+  margin-bottom: 7px;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.login-card input:not([type="radio"]),
+.login-card select {
+  width: 100%;
+  padding: 12px 13px;
+  border: 1px solid #cbd5df;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.login-card input:not([type="radio"]):focus,
+.login-card select:focus {
+  outline: none;
+  border-color: #1f4f7a;
+  box-shadow: 0 0 0 3px rgba(31, 79, 122, 0.1);
+}
+
+.login-card button {
+  width: 100%;
+  margin-top: 8px;
+  padding: 13px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #1f4f7a;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-card button:hover {
+  background: #173c5c;
+}
+
+.error {
+  margin: 15px 0 0;
+  text-align: center;
+  color: #b42318;
+  font-size: 13px;
 }
 
 
@@ -367,7 +496,6 @@ textarea {
 .student-dashboard {
   min-height: 100vh;
   background: #f4f6f9;
-  color: #1f2937;
 }
 
 .student-header {
@@ -390,15 +518,14 @@ textarea {
   width: 58px;
   height: 58px;
   object-fit: contain;
+  padding: 3px;
   background: #ffffff;
   border-radius: 4px;
-  padding: 3px;
 }
 
 .student-header-left h1 {
   margin: 0;
   font-size: 22px;
-  font-weight: 700;
 }
 
 .student-header-left p {
@@ -435,7 +562,6 @@ textarea {
   border-radius: 5px;
   background: transparent;
   color: #ffffff;
-  font-family: inherit;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -477,14 +603,9 @@ textarea {
   border-radius: 6px;
   background: #1f4f7a;
   color: #ffffff;
-  font-family: inherit;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-}
-
-.new-complaint-button:hover {
-  background: #173c5c;
 }
 
 .summary-grid {
@@ -521,12 +642,12 @@ textarea {
 
 .complaints-section,
 .complaint-detail-section {
+  margin-bottom: 28px;
   background: #ffffff;
   border: 1px solid #dde3ea;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.035);
   overflow: hidden;
-  margin-bottom: 28px;
 }
 
 .complaints-section .section-heading,
@@ -560,7 +681,6 @@ textarea {
   border-radius: 6px;
   background: #f8fafc;
   color: #173b63;
-  font-size: 14px;
   font-weight: 700;
 }
 
@@ -591,10 +711,6 @@ textarea {
   padding: 0 20px;
   border-bottom: 1px solid #edf0f3;
   font-size: 13px;
-}
-
-.complaint-table-row:last-child {
-  border-bottom: none;
 }
 
 .complaint-table-row:hover {
@@ -639,7 +755,6 @@ textarea {
   border-radius: 5px;
   background: #ffffff;
   color: #1f4f7a;
-  font-family: inherit;
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
@@ -660,10 +775,13 @@ textarea {
   border-radius: 5px;
   background: #ffffff;
   color: #4b5563;
-  font-family: inherit;
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.close-detail-button:hover {
+  background: #f4f6f9;
 }
 
 .detail-grid {
@@ -703,8 +821,8 @@ textarea {
 .description-block p {
   margin: 7px 0 0;
   color: #374151;
-  line-height: 1.6;
   font-size: 13px;
+  line-height: 1.6;
 }
 
 .complaint-detail-card .photo-section {
@@ -747,8 +865,7 @@ textarea {
   font-size: 13px;
 }
 
-.student-footer,
-.warden-footer {
+.student-footer {
   padding: 22px 20px;
   text-align: center;
   background: #173b63;
@@ -756,15 +873,13 @@ textarea {
   border-top: 4px solid #d8a84e;
 }
 
-.student-footer p,
-.warden-footer p {
+.student-footer p {
   margin: 0 0 5px;
   font-size: 13px;
   font-weight: 600;
 }
 
-.student-footer span,
-.warden-footer span {
+.student-footer span {
   color: #dbe7f2;
   font-size: 11px;
 }
@@ -808,7 +923,6 @@ textarea {
 .warden-header-left h1 {
   margin: 0;
   font-size: 22px;
-  font-weight: 700;
 }
 
 .warden-header-left p {
@@ -845,7 +959,6 @@ textarea {
   border-radius: 5px;
   background: transparent;
   color: #ffffff;
-  font-family: inherit;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -856,22 +969,12 @@ textarea {
   color: #173b63;
 }
 
-
-/* =========================
-   WARDEN MAIN - CENTERED
-   ========================= */
-
 .warden-main {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
   padding: 40px 30px 60px;
 }
-
-
-/* =========================
-   WARDEN PAGE HEADING
-   ========================= */
 
 .warden-page-heading {
   display: flex;
@@ -892,11 +995,6 @@ textarea {
   color: #6b7280;
   font-size: 14px;
 }
-
-
-/* =========================
-   WARDEN INFORMATION
-   ========================= */
 
 .warden-info-card {
   width: 100%;
@@ -939,11 +1037,6 @@ textarea {
   font-size: 14px;
 }
 
-
-/* =========================
-   WARDEN SUMMARY
-   ========================= */
-
 .warden-summary-grid {
   width: 100%;
   display: grid;
@@ -973,11 +1066,6 @@ textarea {
   color: #173b63;
   font-size: 28px;
 }
-
-
-/* =========================
-   WARDEN COMPLAINTS
-   ========================= */
 
 .warden-complaints-section {
   width: 100%;
@@ -1025,11 +1113,6 @@ textarea {
   font-weight: 700;
 }
 
-
-/* =========================
-   WARDEN COMPLAINT CARD
-   ========================= */
-
 .warden-complaint-card {
   width: calc(100% - 48px);
   max-width: 950px;
@@ -1065,11 +1148,6 @@ textarea {
   font-weight: 600;
 }
 
-
-/* =========================
-   WARDEN DETAILS
-   ========================= */
-
 .warden-complaint-details {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1094,11 +1172,6 @@ textarea {
   font-size: 13px;
 }
 
-
-/* =========================
-   WARDEN DESCRIPTION
-   ========================= */
-
 .warden-description {
   margin-top: 22px;
   padding-top: 20px;
@@ -1117,13 +1190,7 @@ textarea {
   color: #374151;
   font-size: 13px;
   line-height: 1.6;
-  overflow-wrap: anywhere;
 }
-
-
-/* =========================
-   WARDEN STATUS
-   ========================= */
 
 .warden-status-section {
   display: flex;
@@ -1148,7 +1215,6 @@ textarea {
   border-radius: 6px;
   background: #ffffff;
   color: #374151;
-  font-family: inherit;
   font-size: 12px;
 }
 
@@ -1157,11 +1223,6 @@ textarea {
   border-color: #1f4f7a;
   box-shadow: 0 0 0 3px rgba(31, 79, 122, 0.1);
 }
-
-
-/* =========================
-   WARDEN PHOTO
-   ========================= */
 
 .warden-photo-section {
   margin-top: 20px;
@@ -1198,11 +1259,6 @@ textarea {
   font-size: 12px;
 }
 
-
-/* =========================
-   WARDEN EMPTY STATE
-   ========================= */
-
 .warden-empty-state {
   padding: 55px 25px;
   text-align: center;
@@ -1220,107 +1276,23 @@ textarea {
   font-size: 13px;
 }
 
-
-/* =========================
-   LOGIN
-   ========================= */
-
-.login-container {
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
-  background: #f4f6f9;
-}
-
-.login-card {
-  width: 100%;
-  max-width: 430px;
-  padding: 40px;
-  background: #ffffff;
-  border: 1px solid #d9e1e8;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(23, 59, 99, 0.10);
-}
-
-.login-logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.login-logo img {
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
-  display: block;
-}
-
-.login-card h1 {
-  margin: 0 0 28px;
+.warden-footer {
+  padding: 22px 20px;
   text-align: center;
-  color: #173b63;
-  font-size: 28px;
-  font-weight: 700;
-}
-
-.login-card .form-group {
-  margin-bottom: 18px;
-}
-
-.login-card .form-group label {
-  display: block;
-  margin-bottom: 7px;
-  color: #374151;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.login-card input:not([type="radio"]),
-.login-card select {
-  width: 100%;
-  padding: 12px 13px;
-  border: 1px solid #cbd5df;
-  border-radius: 6px;
-  background: #ffffff;
-  color: #1f2937;
-  font-family: inherit;
-  font-size: 14px;
-}
-
-.login-card input:not([type="radio"]):focus,
-.login-card select:focus {
-  outline: none;
-  border-color: #1f4f7a;
-  box-shadow: 0 0 0 3px rgba(31, 79, 122, 0.10);
-}
-
-.login-card button {
-  width: 100%;
-  margin-top: 8px;
-  padding: 13px 18px;
-  border: none;
-  border-radius: 6px;
-  background: #1f4f7a;
+  background: #173b63;
   color: #ffffff;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
+  border-top: 4px solid #d8a84e;
 }
 
-.login-card button:hover {
-  background: #173c5c;
-}
-
-.error {
-  margin: 15px 0 0;
-  text-align: center;
-  color: #b42318;
+.warden-footer p {
+  margin: 0 0 5px;
   font-size: 13px;
+  font-weight: 600;
+}
+
+.warden-footer span {
+  color: #dbe7f2;
+  font-size: 11px;
 }
 
 
@@ -1334,99 +1306,112 @@ textarea {
 }
 
 .help-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 22px 40px;
+  width: 100%;
   background: #173b63;
   color: #ffffff;
   border-bottom: 4px solid #d8a84e;
 }
 
-.help-header h1 {
+.help-brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.help-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 86px;
+  padding: 12px 45px;
+}
+
+.help-logo {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  padding: 3px;
+  background: #ffffff;
+  border-radius: 4px;
+}
+
+.help-brand-text h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: 21px;
   font-weight: 700;
 }
 
-.help-header p {
-  margin: 5px 0 0;
+.help-brand-text p {
+  margin: 4px 0 0;
   color: #dbe7f2;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .help-hostel {
   display: flex;
   flex-direction: column;
-  text-align: right;
+  align-items: flex-end;
   gap: 4px;
 }
 
 .help-hostel span {
   color: #dbe7f2;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .help-hostel strong {
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .help-main {
   width: 100%;
-  max-width: 1000px;
+  max-width: 950px;
   margin: 0 auto;
-  padding: 35px 25px 55px;
+  padding: 45px 30px 60px;
 }
 
-.help-title {
-  margin-bottom: 25px;
+.help-introduction {
+  margin-bottom: 30px;
 }
 
-.help-title h2 {
-  margin: 0 0 7px;
-  color: #1f2937;
-  font-size: 23px;
+.help-introduction h2 {
+  margin: 0 0 8px;
+  color: #173b63;
+  font-size: 25px;
 }
 
-.help-title p {
+.help-introduction p {
+  max-width: 800px;
   margin: 0;
   color: #6b7280;
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 1.7;
 }
 
 .help-card {
-  margin-bottom: 20px;
-  padding: 23px;
+  width: 100%;
+  margin-bottom: 22px;
+  padding: 24px 26px;
   background: #ffffff;
-  border: 1px solid #dde3ea;
-  border-radius: 9px;
+  border: 1px solid #dce3ea;
+  border-radius: 10px;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
 }
 
 .help-card h3 {
-  margin: 0 0 16px;
+  margin: 0 0 18px;
+  padding-bottom: 12px;
   color: #173b63;
   font-size: 17px;
-}
-
-.help-card p {
-  margin: 6px 0;
-  color: #6b7280;
-  font-size: 13px;
-  line-height: 1.6;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .contact-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 13px 0;
-  border-top: 1px solid #e5e7eb;
-}
-
-.contact-row:first-of-type {
-  border-top: none;
-  padding-top: 0;
+  min-height: 42px;
+  padding: 8px 0;
 }
 
 .contact-row span {
@@ -1437,6 +1422,14 @@ textarea {
 .contact-row strong {
   color: #374151;
   font-size: 13px;
+  font-weight: 600;
+}
+
+.section-note {
+  margin: -5px 0 18px !important;
+  color: #7b8490 !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
 }
 
 .contact-list {
@@ -1448,7 +1441,8 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 0;
+  min-height: 46px;
+  padding: 11px 0;
   border-top: 1px solid #e5e7eb;
 }
 
@@ -1457,15 +1451,61 @@ textarea {
   padding-top: 0;
 }
 
+.contact-item:last-child {
+  padding-bottom: 0;
+}
+
 .contact-item span {
   color: #374151;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 
 .contact-item strong {
   color: #6b7280;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.assistance-box {
+  padding: 17px 19px;
+  background: #f8fafc;
+  border-left: 4px solid #1f4f7a;
+  border-radius: 5px;
+}
+
+.assistance-box p {
+  margin: 0 0 10px;
+  color: #4b5563;
   font-size: 13px;
+  line-height: 1.6;
+}
+
+.assistance-box p:last-child {
+  margin-bottom: 0;
+}
+
+.help-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.help-back-button {
+  min-width: 210px;
+  padding: 11px 20px;
+  border: 1px solid #1f4f7a;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #1f4f7a;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.help-back-button:hover {
+  background: #1f4f7a;
+  color: #ffffff;
 }
 
 
@@ -1501,22 +1541,25 @@ textarea {
 @media (max-width: 650px) {
 
   .portal-header-content {
-    padding: 18px 20px;
+    padding: 16px 20px;
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
 
   .portal-hostel {
-    text-align: left;
+    align-items: flex-start;
   }
 
-  .complaint-main {
-    padding: 25px 15px 40px;
+  .complaint-main,
+  .student-main,
+  .warden-main,
+  .help-main {
+    padding: 28px 15px 45px;
   }
 
   .form-panel form {
-    padding: 22px 20px;
+    padding: 22px 18px;
   }
 
   .section-header {
@@ -1524,7 +1567,8 @@ textarea {
   }
 
   .student-header,
-  .warden-header {
+  .warden-header,
+  .help-header {
     padding: 16px 20px;
     flex-direction: column;
     align-items: flex-start;
@@ -1542,15 +1586,12 @@ textarea {
     align-items: flex-start;
   }
 
-  .student-main,
-  .warden-main {
-    padding: 25px 15px 40px;
-  }
-
   .student-page-heading,
   .warden-page-heading {
+    flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 15px;
   }
 
   .summary-grid,
@@ -1592,19 +1633,8 @@ textarea {
     min-width: 850px;
   }
 
-  .help-header {
-    padding: 18px 20px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
   .help-hostel {
-    text-align: left;
-  }
-
-  .help-main {
-    padding: 25px 15px 40px;
+    align-items: flex-start;
   }
 
   .contact-row,
