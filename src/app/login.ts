@@ -16,16 +16,22 @@ import { Router } from '@angular/router';
 
         <!-- Centurion University Logo -->
         <div class="login-logo">
+
           <img
             src="centurion-logo.jpg"
             alt="Centurion University Logo"
           >
+
         </div>
 
-        <h1>Login</h1>
+
+        <!-- Heading -->
+        <h1>
+          Login
+        </h1>
 
 
-        <!-- ROLE -->
+        <!-- Role -->
         <div class="form-group">
 
           <label for="role">
@@ -60,7 +66,7 @@ import { Router } from '@angular/router';
         </div>
 
 
-        <!-- WARDEN -->
+        <!-- Warden -->
         <div
           class="form-group"
           *ngIf="role === 'warden'"
@@ -82,9 +88,9 @@ import { Router } from '@angular/router';
 
             <option
               *ngFor="let warden of wardens"
-              [value]="warden"
+              [value]="warden.name"
             >
-              {{ warden }}
+              {{ warden.name }}
             </option>
 
           </select>
@@ -92,7 +98,7 @@ import { Router } from '@angular/router';
         </div>
 
 
-        <!-- USERNAME -->
+        <!-- Username -->
         <div class="form-group">
 
           <label for="username">
@@ -105,12 +111,13 @@ import { Router } from '@angular/router';
             name="username"
             [(ngModel)]="username"
             placeholder="Enter username"
+            autocomplete="username"
           >
 
         </div>
 
 
-        <!-- PASSWORD -->
+        <!-- Password -->
         <div class="form-group">
 
           <label for="password">
@@ -123,12 +130,13 @@ import { Router } from '@angular/router';
             name="password"
             [(ngModel)]="password"
             placeholder="Enter password"
+            autocomplete="current-password"
           >
 
         </div>
 
 
-        <!-- LOGIN -->
+        <!-- Login Button -->
         <button
           type="button"
           (click)="login()"
@@ -137,7 +145,7 @@ import { Router } from '@angular/router';
         </button>
 
 
-        <!-- ERROR -->
+        <!-- Error -->
         <p
           class="error"
           *ngIf="errorMessage"
@@ -153,7 +161,9 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   role = '';
+
   username = '';
+
   password = '';
 
   selectedWarden = '';
@@ -161,12 +171,36 @@ export class LoginComponent {
   errorMessage = '';
 
 
+  /*
+   * Temporary demo accounts.
+   * We will move authentication to Spring Boot later.
+   */
   wardens = [
-    'Pramila Dash',
-    'Parbati Mahapatra',
-    'Rashmi Rekha Swain',
-    'Binod Manjari',
-    'Kanaklata Jena'
+    {
+      name: 'Pramila Dash',
+      username: 'pramila',
+      password: '1234'
+    },
+    {
+      name: 'Parbati Mahapatra',
+      username: 'parbati',
+      password: '1234'
+    },
+    {
+      name: 'Rashmi Rekha Swain',
+      username: 'rashmi',
+      password: '1234'
+    },
+    {
+      name: 'Binod Manjari',
+      username: 'binod',
+      password: '1234'
+    },
+    {
+      name: 'Kanaklata Jena',
+      username: 'kanaklata',
+      password: '1234'
+    }
   ];
 
 
@@ -178,8 +212,11 @@ export class LoginComponent {
   resetFields() {
 
     this.username = '';
+
     this.password = '';
+
     this.selectedWarden = '';
+
     this.errorMessage = '';
 
   }
@@ -190,10 +227,13 @@ export class LoginComponent {
     this.errorMessage = '';
 
 
-    // Empty fields
+    // =========================
+    // EMPTY FIELDS
+    // =========================
+
     if (
       !this.role ||
-      !this.username ||
+      !this.username.trim() ||
       !this.password
     ) {
 
@@ -206,13 +246,19 @@ export class LoginComponent {
 
 
     // =========================
-    // STUDENT
+    // STUDENT LOGIN
     // =========================
 
     if (this.role === 'student') {
 
+      const studentUsername =
+        this.username
+          .trim()
+          .toLowerCase();
+
+
       if (
-        this.username.trim().toLowerCase() === 'khushi' &&
+        studentUsername === 'khushi' &&
         this.password === '1234'
       ) {
 
@@ -244,7 +290,7 @@ export class LoginComponent {
 
 
     // =========================
-    // WARDEN
+    // WARDEN LOGIN
     // =========================
 
     if (this.role === 'warden') {
@@ -259,10 +305,22 @@ export class LoginComponent {
       }
 
 
+      const selectedAccount =
+        this.wardens.find(
+          (warden) =>
+            warden.name ===
+            this.selectedWarden
+        );
+
+
       if (
-        this.username.trim().toLowerCase() ===
-        'warden' &&
-        this.password === '1234'
+        selectedAccount &&
+        this.username
+          .trim()
+          .toLowerCase() ===
+        selectedAccount.username &&
+        this.password ===
+        selectedAccount.password
       ) {
 
         localStorage.setItem(
@@ -272,7 +330,7 @@ export class LoginComponent {
 
         localStorage.setItem(
           'loggedInWarden',
-          this.selectedWarden
+          selectedAccount.name
         );
 
         this.router.navigate([
@@ -293,15 +351,21 @@ export class LoginComponent {
 
 
     // =========================
-    // SUPERINTENDENT
+    // SUPERINTENDENT LOGIN
     // =========================
 
-    if (this.role === 'superintendent') {
+    if (
+      this.role ===
+      'superintendent'
+    ) {
 
       if (
-        this.username.trim().toLowerCase() ===
+        this.username
+          .trim()
+          .toLowerCase() ===
         'superintendent' &&
-        this.password === '1234'
+        this.password ===
+        '1234'
       ) {
 
         localStorage.setItem(

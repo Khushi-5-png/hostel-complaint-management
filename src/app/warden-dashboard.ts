@@ -28,6 +28,7 @@ import { Router } from '@angular/router';
   template: `
     <div class="warden-dashboard">
 
+
       <!-- =========================
            HEADER
            ========================= -->
@@ -45,11 +46,11 @@ import { Router } from '@angular/router';
           <div>
 
             <h1>
-              Hostel Complaint Management System
+              Warden Portal
             </h1>
 
             <p>
-              Warden Portal
+              Hostel Administration
             </p>
 
           </div>
@@ -92,22 +93,18 @@ import { Router } from '@angular/router';
       <main class="warden-main">
 
 
-        <!-- Page Heading -->
+        <!-- PAGE TITLE -->
 
         <section class="warden-page-heading">
 
-          <div>
+          <h2>
+            Warden Dashboard
+          </h2>
 
-            <h2>
-              Warden Dashboard
-            </h2>
-
-            <p>
-              View and manage complaints assigned to
-              {{ loggedInWarden }}.
-            </p>
-
-          </div>
+          <p>
+            View and manage complaints assigned to
+            {{ loggedInWarden }}.
+          </p>
 
         </section>
 
@@ -137,32 +134,6 @@ import { Router } from '@angular/router';
 
             </div>
 
-
-            <div class="warden-info-item">
-
-              <span>
-                Contact Number
-              </span>
-
-              <strong>
-                {{ getWardenPhone() }}
-              </strong>
-
-            </div>
-
-
-            <div class="warden-info-item">
-
-              <span>
-                Hostel
-              </span>
-
-              <strong>
-                {{ hostelName }}
-              </strong>
-
-            </div>
-
           </div>
 
         </section>
@@ -174,10 +145,13 @@ import { Router } from '@angular/router';
 
         <section class="warden-summary-grid">
 
+
+          <!-- Total -->
+
           <div class="warden-summary-card">
 
             <span>
-              Assigned Complaints
+              Total Assigned
             </span>
 
             <strong>
@@ -186,6 +160,8 @@ import { Router } from '@angular/router';
 
           </div>
 
+
+          <!-- Pending -->
 
           <div class="warden-summary-card">
 
@@ -200,14 +176,31 @@ import { Router } from '@angular/router';
           </div>
 
 
+          <!-- In Progress -->
+
           <div class="warden-summary-card">
 
             <span>
-              In Progress / Resolved
+              In Progress
             </span>
 
             <strong>
-              {{ getActiveCount() }}
+              {{ getInProgressCount() }}
+            </strong>
+
+          </div>
+
+
+          <!-- Resolved -->
+
+          <div class="warden-summary-card">
+
+            <span>
+              Resolved
+            </span>
+
+            <strong>
+              {{ getResolvedCount() }}
             </strong>
 
           </div>
@@ -216,10 +209,11 @@ import { Router } from '@angular/router';
 
 
         <!-- =========================
-             COMPLAINTS
+             ASSIGNED COMPLAINTS
              ========================= -->
 
         <section class="warden-complaints-section">
+
 
           <div class="warden-section-heading">
 
@@ -238,32 +232,37 @@ import { Router } from '@angular/router';
 
 
             <span class="warden-complaint-count">
-
               {{ filteredComplaints.length }}
-
             </span>
 
           </div>
 
 
-          <!-- Complaint Cards -->
+          <!-- =========================
+               COMPLAINT CARDS
+               ========================= -->
 
           <div
             class="warden-complaint-card"
             *ngFor="let complaint of filteredComplaints"
           >
 
+
             <!-- Complaint Header -->
 
             <div class="warden-complaint-header">
 
-              <h4>
-                Complaint #{{ complaint.id }}
-              </h4>
+              <div class="complaint-title-group">
 
-              <span class="warden-complaint-type">
-                {{ complaint.complaintType || 'General' }}
-              </span>
+                <h4>
+                  Complaint #{{ complaint.id }}
+                </h4>
+
+                <span class="warden-complaint-type">
+                  {{ complaint.complaintType || 'General' }}
+                </span>
+
+              </div>
 
             </div>
 
@@ -318,7 +317,7 @@ import { Router } from '@angular/router';
               </div>
 
 
-              <!-- Status -->
+              <!-- Current Status -->
 
               <div class="warden-detail-item">
 
@@ -329,7 +328,9 @@ import { Router } from '@angular/router';
                 <strong
                   class="status-badge"
                   [ngClass]="
-                    getStatusClass(complaint.status)
+                    getStatusClass(
+                      complaint.status
+                    )
                   "
                 >
                   {{ complaint.status || 'Pending' }}
@@ -340,7 +341,9 @@ import { Router } from '@angular/router';
             </div>
 
 
-            <!-- Description -->
+            <!-- =========================
+                 DESCRIPTION
+                 ========================= -->
 
             <div class="warden-description">
 
@@ -371,8 +374,16 @@ import { Router } from '@angular/router';
 
               <select
                 class="warden-status-select"
-                [value]="complaint.status || 'Pending'"
-                (change)="updateStatus(complaint, $event)"
+                [value]="
+                  complaint.status ||
+                  'Pending'
+                "
+                (change)="
+                  updateStatus(
+                    complaint,
+                    $event
+                  )
+                "
               >
 
                 <option value="Pending">
@@ -393,7 +404,7 @@ import { Router } from '@angular/router';
 
 
             <!-- =========================
-                 PHOTO
+                 SUPPORTING PHOTOGRAPH
                  ========================= -->
 
             <div
@@ -412,7 +423,7 @@ import { Router } from '@angular/router';
                 "
                 target="_blank"
               >
-                View Supporting Photograph
+                View Photograph
               </a>
 
             </div>
@@ -422,9 +433,7 @@ import { Router } from '@angular/router';
               class="warden-no-photo"
               *ngIf="!complaint.photoPath"
             >
-
               No supporting photograph attached.
-
             </div>
 
           </div>
@@ -436,7 +445,9 @@ import { Router } from '@angular/router';
 
           <div
             class="warden-empty-state"
-            *ngIf="filteredComplaints.length === 0"
+            *ngIf="
+              filteredComplaints.length === 0
+            "
           >
 
             <h3>
@@ -466,7 +477,7 @@ import { Router } from '@angular/router';
         </p>
 
         <span>
-          Hostel Complaint Management System
+          Hostel Administration
         </span>
 
       </footer>
@@ -485,27 +496,6 @@ export class WardenDashboardComponent
   filteredComplaints: any[] = [];
 
   loggedInWarden = '';
-
-  hostelName = 'Block B Hostel';
-
-  hostelEmail = 'hostel@college.edu';
-
-
-  wardenPhones: {
-    [key: string]: string
-  } = {
-
-    'Pramila Dash': '9XXXXXXXXX',
-
-    'Parbati Mahapatra': '9XXXXXXXXX',
-
-    'Rashmi Rekha Swain': '9XXXXXXXXX',
-
-    'Binod Manjari': '9XXXXXXXXX',
-
-    'Kanaklata Jena': '9XXXXXXXXX'
-
-  };
 
 
   constructor(
@@ -628,27 +618,36 @@ export class WardenDashboardComponent
   }
 
 
-  getActiveCount(): number {
+  getInProgressCount(): number {
 
     return this.filteredComplaints
       .filter(
-        (complaint) => {
+        (complaint) =>
+          (
+            complaint.status ||
+            ''
+          )
+            .trim()
+            .toLowerCase() ===
+          'in progress'
+      )
+      .length;
 
-          const status =
-            (
-              complaint.status ||
-              'Pending'
-            )
-              .trim()
-              .toLowerCase();
+  }
 
 
-          return (
-            status === 'in progress' ||
-            status === 'resolved'
-          );
+  getResolvedCount(): number {
 
-        }
+    return this.filteredComplaints
+      .filter(
+        (complaint) =>
+          (
+            complaint.status ||
+            ''
+          )
+            .trim()
+            .toLowerCase() ===
+          'resolved'
       )
       .length;
 
@@ -750,18 +749,6 @@ export class WardenDashboardComponent
         }
 
       });
-
-  }
-
-
-  getWardenPhone(): string {
-
-    return (
-      this.wardenPhones[
-        this.loggedInWarden
-        ] ||
-      'Not available'
-    );
 
   }
 
