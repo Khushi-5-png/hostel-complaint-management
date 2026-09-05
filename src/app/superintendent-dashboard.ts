@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     HttpClientModule
   ],
   styleUrl: './app.css',
@@ -290,18 +292,31 @@ import { Router } from '@angular/router';
               </div>
 
 
+              <!-- STATUS -->
               <div class="superintendent-detail-item">
 
                 <span>
                   Current Status
                 </span>
 
-                <span
-                  class="status-badge"
-                  [ngClass]="getStatusClass(complaint.status)"
+                <select
+                  class="superintendent-status-select"
+                  [(ngModel)]="complaint.status"
                 >
-                  {{ complaint.status || 'Pending' }}
-                </span>
+
+                  <option value="Pending">
+                    Pending
+                  </option>
+
+                  <option value="In Progress">
+                    In Progress
+                  </option>
+
+                  <option value="Resolved">
+                    Resolved
+                  </option>
+
+                </select>
 
               </div>
 
