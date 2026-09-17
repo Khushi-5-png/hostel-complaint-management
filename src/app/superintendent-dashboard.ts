@@ -1,17 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
+
+import {
+  HttpClient,
+  HttpClientModule
+} from '@angular/common/http';
+
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-superintendent-dashboard',
   standalone: true,
+
   imports: [
     CommonModule,
     FormsModule,
     HttpClientModule
   ],
+
   styleUrl: './app.css',
 
   template: `
@@ -35,6 +48,7 @@ import { Router } from '@angular/router';
 
         </div>
 
+
         <div class="superintendent-header-right">
 
           <div class="superintendent-profile">
@@ -48,6 +62,7 @@ import { Router } from '@angular/router';
             </strong>
 
           </div>
+
 
           <button
             class="superintendent-logout"
@@ -302,6 +317,7 @@ import { Router } from '@angular/router';
                 <select
                   class="superintendent-status-select"
                   [(ngModel)]="complaint.status"
+                  (change)="updateStatus(complaint)"
                 >
 
                   <option value="Pending">
@@ -406,6 +422,8 @@ import { Router } from '@angular/router';
     </div>
   `
 })
+
+
 export class SuperintendentDashboardComponent implements OnInit {
 
   complaints: any[] = [];
@@ -415,7 +433,8 @@ export class SuperintendentDashboardComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
 
@@ -461,10 +480,18 @@ export class SuperintendentDashboardComponent implements OnInit {
         );
 
 
+        /*
+         * Force Angular to update the dashboard
+         * after the complaints are loaded and filtered.
+         */
+        this.cdr.detectChanges();
+
+
         console.log(
           'All complaints from backend:',
           data
         );
+
 
         console.log(
           'Superintendent complaints:',
@@ -472,6 +499,7 @@ export class SuperintendentDashboardComponent implements OnInit {
         );
 
       },
+
 
       error: (error) => {
 
@@ -491,8 +519,10 @@ export class SuperintendentDashboardComponent implements OnInit {
 
     return this.complaints.filter(
       (complaint) =>
-        (complaint.status || 'Pending') ===
-        'Pending'
+        (complaint.status || 'Pending')
+          .trim()
+          .toLowerCase() ===
+        'pending'
     ).length;
 
   }
@@ -502,7 +532,10 @@ export class SuperintendentDashboardComponent implements OnInit {
 
     return this.complaints.filter(
       (complaint) =>
-        complaint.status === 'In Progress'
+        (complaint.status || '')
+          .trim()
+          .toLowerCase() ===
+        'in progress'
     ).length;
 
   }
@@ -512,7 +545,10 @@ export class SuperintendentDashboardComponent implements OnInit {
 
     return this.complaints.filter(
       (complaint) =>
-        complaint.status === 'Resolved'
+        (complaint.status || '')
+          .trim()
+          .toLowerCase() ===
+        'resolved'
     ).length;
 
   }
@@ -537,12 +573,58 @@ export class SuperintendentDashboardComponent implements OnInit {
   }
 
 
+  updateStatus(complaint: any): void {
+
+    const newStatus =
+      complaint.status || 'Pending';
+
+
+    this.http.put<any>(
+      `http://localhost:8080/complaints/${complaint.id}/status`,
+      {},
+      {
+        params: {
+          status: newStatus
+        }
+      }
+    ).subscribe({
+
+      next: (updatedComplaint) => {
+
+        complaint.status =
+          updatedComplaint.status;
+
+        console.log(
+          'Complaint status updated successfully:',
+          updatedComplaint
+        );
+
+        this.cdr.detectChanges();
+
+      },
+
+
+      error: (error) => {
+
+        console.error(
+          'Error updating complaint status:',
+          error
+        );
+
+      }
+
+    });
+
+  }
+
+
   getPhotoUrl(photoPath: string): string {
 
     const filename =
       photoPath
         .split('/')
         .pop() || '';
+
 
     return (
       'http://localhost:8080/complaints/photo/' +
@@ -555,8 +637,11 @@ export class SuperintendentDashboardComponent implements OnInit {
   logout(): void {
 
     localStorage.removeItem('loggedInRole');
+
     localStorage.removeItem('studentName');
+
     localStorage.removeItem('loggedInWarden');
+
 
     this.router.navigate([
       '/login'

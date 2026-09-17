@@ -54,7 +54,6 @@
 
   <main class="complaint-main">
 
-
     <!-- PAGE TITLE -->
 
     <div class="page-title">
@@ -116,7 +115,7 @@
             <div class="form-grid">
 
 
-              <!-- Student Name -->
+              <!-- STUDENT NAME -->
 
               <div class="form-group">
 
@@ -137,7 +136,7 @@
               </div>
 
 
-              <!-- Room Number -->
+              <!-- ROOM NUMBER -->
 
               <div class="form-group">
 
@@ -158,7 +157,7 @@
               </div>
 
 
-              <!-- Block -->
+              <!-- BLOCK -->
 
               <div class="form-group">
 
@@ -195,7 +194,7 @@
               </div>
 
 
-              <!-- Warden -->
+              <!-- WARDEN -->
 
               <div class="form-group">
 
@@ -255,7 +254,7 @@
             </h4>
 
 
-            <!-- Complaint Type -->
+            <!-- COMPLAINT TYPE -->
 
             <div class="form-group">
 
@@ -316,7 +315,7 @@
             </div>
 
 
-            <!-- Description -->
+            <!-- DESCRIPTION -->
 
             <div class="form-group">
 
@@ -337,7 +336,7 @@
             </div>
 
 
-            <!-- Photo -->
+            <!-- PHOTO -->
 
             <div class="form-group">
 
@@ -348,6 +347,7 @@
               <input
                 type="file"
                 id="photo"
+                name="photo"
                 accept="image/*"
                 (change)="onPhotoSelected($event)"
               >
@@ -371,7 +371,6 @@
               Escalation
             </h4>
 
-
             <div class="form-group">
 
               <label>
@@ -381,7 +380,6 @@
 
 
               <div class="radio-group">
-
 
                 <label>
 
@@ -415,7 +413,7 @@
             </div>
 
 
-            <!-- Superintendent -->
+            <!-- SUPERINTENDENT SELECT -->
 
             <div
               class="form-group"
@@ -423,13 +421,18 @@
             >
 
               <label for="superintendent">
+
                 Superintendent
+
+                <span>*</span>
+
               </label>
 
               <select
                 id="superintendent"
                 name="superintendent"
                 [(ngModel)]="superintendent"
+                required
               >
 
                 <option value="Basanta Manjari Dash">
@@ -437,6 +440,10 @@
                 </option>
 
               </select>
+
+              <small>
+                Select the Superintendent to whom this complaint should be escalated.
+              </small>
 
             </div>
 
@@ -469,7 +476,7 @@
       <aside class="administration-panel">
 
 
-        <!-- Need Help -->
+        <!-- NEED HELP -->
 
         <div class="admin-card need-help-card">
 
@@ -492,7 +499,7 @@
         </div>
 
 
-        <!-- Before Submit -->
+        <!-- BEFORE SUBMIT -->
 
         <div class="admin-card information-card">
 
@@ -504,7 +511,6 @@
             Please ensure that the complaint information
             is accurate and complete.
           </p>
-
 
           <ul>
 
@@ -522,6 +528,10 @@
 
             <li>
               Attach supporting evidence when required.
+            </li>
+
+            <li>
+              Escalate to the Superintendent when necessary.
             </li>
 
           </ul>

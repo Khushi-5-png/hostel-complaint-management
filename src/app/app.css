@@ -498,7 +498,9 @@ textarea {
   background: #f4f6f9;
 }
 
-.student-header {
+.student-header,
+.warden-header,
+.superintendent-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -508,13 +510,17 @@ textarea {
   border-bottom: 4px solid #d8a84e;
 }
 
-.student-header-left {
+.student-header-left,
+.warden-header-left,
+.superintendent-header-left {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-.student-logo {
+.student-logo,
+.warden-logo,
+.superintendent-logo {
   width: 58px;
   height: 58px;
   object-fit: contain;
@@ -523,40 +529,54 @@ textarea {
   border-radius: 4px;
 }
 
-.student-header-left h1 {
+.student-header-left h1,
+.warden-header-left h1,
+.superintendent-header-left h1 {
   margin: 0;
   font-size: 22px;
 }
 
-.student-header-left p {
+.student-header-left p,
+.warden-header-left p,
+.superintendent-header-left p {
   margin: 4px 0 0;
   color: #dbe7f2;
   font-size: 13px;
 }
 
-.student-header-right {
+.student-header-right,
+.warden-header-right,
+.superintendent-header-right {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.student-profile {
+.student-profile,
+.warden-profile,
+.superintendent-profile {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 3px;
 }
 
-.profile-label {
+.profile-label,
+.warden-profile-label,
+.superintendent-profile-label {
   color: #dbe7f2;
   font-size: 11px;
 }
 
-.student-profile strong {
+.student-profile strong,
+.warden-profile strong,
+.superintendent-profile strong {
   font-size: 14px;
 }
 
-.logout-button {
+.logout-button,
+.warden-logout,
+.superintendent-logout {
   padding: 9px 16px;
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 5px;
@@ -567,15 +587,29 @@ textarea {
   cursor: pointer;
 }
 
-.logout-button:hover {
+.logout-button:hover,
+.warden-logout:hover,
+.superintendent-logout:hover {
   background: #ffffff;
   color: #173b63;
 }
 
+.student-main,
+.warden-main,
+.superintendent-main {
+  width: 100%;
+  margin: 0 auto;
+}
+
 .student-main {
   max-width: 1250px;
-  margin: 0 auto;
   padding: 35px 30px 55px;
+}
+
+.student-page-heading,
+.warden-page-heading,
+.superintendent-page-heading {
+  text-align: center;
 }
 
 .student-page-heading {
@@ -608,19 +642,27 @@ textarea {
   cursor: pointer;
 }
 
-.summary-grid {
+.summary-grid,
+.warden-summary-grid,
+.superintendent-summary-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
   margin-bottom: 28px;
 }
 
-.summary-card {
-  padding: 20px;
+.summary-card,
+.warden-summary-card,
+.superintendent-summary-card {
   background: #ffffff;
   border: 1px solid #dde3ea;
   border-radius: 9px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.035);
+  text-align: center;
+}
+
+.summary-card {
+  padding: 20px;
 }
 
 .summary-card-content {
@@ -629,20 +671,25 @@ textarea {
   gap: 8px;
 }
 
-.summary-label {
+.summary-label,
+.warden-summary-card span,
+.superintendent-summary-card span {
   color: #6b7280;
   font-size: 12px;
   font-weight: 600;
 }
 
-.summary-card strong {
+.summary-card strong,
+.warden-summary-card strong,
+.superintendent-summary-card strong {
   color: #173b63;
   font-size: 27px;
 }
 
 .complaints-section,
-.complaint-detail-section {
-  margin-bottom: 28px;
+.complaint-detail-section,
+.warden-complaints-section,
+.superintendent-complaints-section {
   background: #ffffff;
   border: 1px solid #dde3ea;
   border-radius: 10px;
@@ -650,9 +697,13 @@ textarea {
   overflow: hidden;
 }
 
+.complaints-section,
+.complaint-detail-section {
+  margin-bottom: 28px;
+}
+
 .complaints-section .section-heading,
 .complaint-detail-section .section-heading {
-  margin: 0;
   padding: 20px 24px;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -671,7 +722,9 @@ textarea {
   font-size: 13px;
 }
 
-.complaint-total {
+.complaint-total,
+.warden-complaint-count,
+.superintendent-complaint-count {
   min-width: 38px;
   height: 38px;
   display: flex;
@@ -686,6 +739,7 @@ textarea {
 
 .complaint-table {
   width: 100%;
+  overflow-x: auto;
 }
 
 .complaint-table-header,
@@ -825,7 +879,8 @@ textarea {
   line-height: 1.6;
 }
 
-.complaint-detail-card .photo-section {
+.complaint-detail-card .photo-section,
+.complaint-detail-card .no-photo {
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid #e5e7eb;
@@ -841,9 +896,6 @@ textarea {
 }
 
 .complaint-detail-card .no-photo {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #e5e7eb;
   color: #9ca3af;
   font-size: 12px;
 }
@@ -853,19 +905,29 @@ textarea {
   text-align: center;
 }
 
-.student-empty-state h3 {
+.student-empty-state h3,
+.warden-empty-state h3,
+.superintendent-empty-state h3 {
   margin: 0 0 8px;
   color: #374151;
   font-size: 17px;
 }
 
-.student-empty-state p {
-  margin: 0 0 18px;
+.student-empty-state p,
+.warden-empty-state p,
+.superintendent-empty-state p {
+  margin: 0;
   color: #6b7280;
   font-size: 13px;
 }
 
-.student-footer {
+.student-empty-state p {
+  margin-bottom: 18px;
+}
+
+.student-footer,
+.warden-footer,
+.superintendent-footer {
   padding: 22px 20px;
   text-align: center;
   background: #173b63;
@@ -873,13 +935,17 @@ textarea {
   border-top: 4px solid #d8a84e;
 }
 
-.student-footer p {
+.student-footer p,
+.warden-footer p,
+.superintendent-footer p {
   margin: 0 0 5px;
   font-size: 13px;
   font-weight: 600;
 }
 
-.student-footer span {
+.student-footer span,
+.warden-footer span,
+.superintendent-footer span {
   color: #dbe7f2;
   font-size: 11px;
 }
@@ -895,84 +961,8 @@ textarea {
   color: #1f2937;
 }
 
-.warden-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 45px;
-  background: #173b63;
-  color: #ffffff;
-  border-bottom: 4px solid #d8a84e;
-}
-
-.warden-header-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.warden-logo {
-  width: 58px;
-  height: 58px;
-  padding: 3px;
-  object-fit: contain;
-  background: #ffffff;
-  border-radius: 4px;
-}
-
-.warden-header-left h1 {
-  margin: 0;
-  font-size: 22px;
-}
-
-.warden-header-left p {
-  margin: 4px 0 0;
-  color: #dbe7f2;
-  font-size: 13px;
-}
-
-.warden-header-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.warden-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 3px;
-}
-
-.warden-profile-label {
-  color: #dbe7f2;
-  font-size: 11px;
-}
-
-.warden-profile strong {
-  font-size: 14px;
-}
-
-.warden-logout {
-  padding: 9px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 5px;
-  background: transparent;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.warden-logout:hover {
-  background: #ffffff;
-  color: #173b63;
-}
-
 .warden-main {
-  width: 100%;
   max-width: 1100px;
-  margin: 0 auto;
   padding: 40px 30px 60px;
 }
 
@@ -980,25 +970,27 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
   margin-bottom: 30px;
 }
 
-.warden-page-heading h2 {
+.warden-page-heading h2,
+.superintendent-page-heading h2 {
   margin: 0 0 7px;
   color: #173b63;
   font-size: 25px;
 }
 
-.warden-page-heading p {
+.warden-page-heading p,
+.superintendent-page-heading p {
   margin: 0;
   color: #6b7280;
   font-size: 14px;
 }
 
-.warden-info-card {
+.warden-info-card,
+.superintendent-info-card {
   width: 100%;
-  margin: 0 auto 25px;
+  margin-bottom: 25px;
   padding: 25px;
   background: #ffffff;
   border: 1px solid #dde3ea;
@@ -1006,17 +998,20 @@ textarea {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.035);
 }
 
-.warden-info-title {
+.warden-info-title,
+.superintendent-info-title {
   margin: 0 0 20px;
+  padding-bottom: 15px;
   text-align: center;
   color: #173b63;
   font-size: 18px;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .warden-info-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 15px;
   text-align: center;
 }
 
@@ -1037,83 +1032,52 @@ textarea {
   font-size: 14px;
 }
 
-.warden-summary-grid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  margin: 0 auto 28px;
-}
-
 .warden-summary-card {
   padding: 21px;
-  text-align: center;
-  background: #ffffff;
-  border: 1px solid #dde3ea;
-  border-radius: 9px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.035);
 }
 
 .warden-summary-card span {
   display: block;
   margin-bottom: 8px;
-  color: #6b7280;
-  font-size: 12px;
-  font-weight: 600;
 }
 
 .warden-summary-card strong {
-  color: #173b63;
   font-size: 28px;
 }
 
 .warden-complaints-section {
   width: 100%;
   margin: 0 auto;
-  background: #ffffff;
-  border: 1px solid #dde3ea;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.035);
-  overflow: hidden;
 }
 
-.warden-section-heading {
+.warden-section-heading,
+.superintendent-section-heading {
+  min-height: 82px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
-  padding: 21px 25px;
+  padding: 19px 25px;
   text-align: center;
   border-bottom: 1px solid #e5e7eb;
 }
 
-.warden-section-heading h3 {
+.warden-section-heading h3,
+.superintendent-section-heading h3 {
   margin: 0;
   color: #173b63;
   font-size: 19px;
 }
 
-.warden-section-heading p {
+.warden-section-heading p,
+.superintendent-section-heading p {
   margin: 5px 0 0;
   color: #6b7280;
   font-size: 13px;
 }
 
-.warden-complaint-count {
-  min-width: 38px;
-  height: 38px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #d9e0e8;
-  border-radius: 6px;
-  background: #f8fafc;
-  color: #173b63;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.warden-complaint-card {
+.warden-complaint-card,
+.superintendent-complaint-card {
   width: calc(100% - 48px);
   max-width: 950px;
   margin: 20px auto;
@@ -1123,23 +1087,26 @@ textarea {
   background: #ffffff;
 }
 
-.warden-complaint-header {
+.warden-complaint-header,
+.superintendent-complaint-header {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 22px;
+  gap: 20px;
   padding-bottom: 15px;
   margin-bottom: 20px;
   border-bottom: 1px solid #e5e7eb;
 }
 
-.warden-complaint-header h4 {
+.warden-complaint-header h4,
+.superintendent-complaint-header h4 {
   margin: 0;
   color: #1f2937;
   font-size: 17px;
 }
 
-.warden-complaint-type {
+.warden-complaint-type,
+.superintendent-complaint-type {
   padding: 6px 10px;
   border-radius: 5px;
   background: #eef3f8;
@@ -1148,26 +1115,32 @@ textarea {
   font-weight: 600;
 }
 
-.warden-complaint-details {
+.warden-complaint-details,
+.superintendent-complaint-details {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   text-align: center;
 }
 
-.warden-detail-item {
+.warden-detail-item,
+.superintendent-detail-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  min-height: 50px;
 }
 
-.warden-detail-item span {
+.warden-detail-item span,
+.superintendent-detail-item > span:first-child {
   color: #6b7280;
   font-size: 11px;
 }
 
-.warden-detail-item strong {
+.warden-detail-item strong,
+.superintendent-detail-item strong {
   color: #374151;
   font-size: 13px;
 }
@@ -1208,7 +1181,8 @@ textarea {
   font-weight: 600;
 }
 
-.warden-status-select {
+.warden-status-select,
+.superintendent-status-select {
   width: 200px;
   padding: 9px 11px;
   border: 1px solid #cbd5df;
@@ -1218,20 +1192,23 @@ textarea {
   font-size: 12px;
 }
 
-.warden-status-select:focus {
+.warden-status-select:focus,
+.superintendent-status-select:focus {
   outline: none;
   border-color: #1f4f7a;
   box-shadow: 0 0 0 3px rgba(31, 79, 122, 0.1);
 }
 
-.warden-photo-section {
+.warden-photo-section,
+.superintendent-photo-section {
   margin-top: 20px;
   padding-top: 20px;
   text-align: center;
   border-top: 1px solid #e5e7eb;
 }
 
-.warden-photo-section span {
+.warden-photo-section span,
+.superintendent-photo-section span {
   display: block;
   margin-bottom: 7px;
   color: #6b7280;
@@ -1239,18 +1216,21 @@ textarea {
   font-weight: 600;
 }
 
-.warden-photo-section a {
+.warden-photo-section a,
+.superintendent-photo-section a {
   color: #1f4f7a;
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
 }
 
-.warden-photo-section a:hover {
+.warden-photo-section a:hover,
+.superintendent-photo-section a:hover {
   text-decoration: underline;
 }
 
-.warden-no-photo {
+.warden-no-photo,
+.superintendent-no-photo {
   margin-top: 20px;
   padding-top: 20px;
   text-align: center;
@@ -1259,40 +1239,10 @@ textarea {
   font-size: 12px;
 }
 
-.warden-empty-state {
+.warden-empty-state,
+.superintendent-empty-state {
   padding: 55px 25px;
   text-align: center;
-}
-
-.warden-empty-state h3 {
-  margin: 0 0 8px;
-  color: #374151;
-  font-size: 17px;
-}
-
-.warden-empty-state p {
-  margin: 0;
-  color: #6b7280;
-  font-size: 13px;
-}
-
-.warden-footer {
-  padding: 22px 20px;
-  text-align: center;
-  background: #173b63;
-  color: #ffffff;
-  border-top: 4px solid #d8a84e;
-}
-
-.warden-footer p {
-  margin: 0 0 5px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.warden-footer span {
-  color: #dbe7f2;
-  font-size: 11px;
 }
 
 
@@ -1306,187 +1256,20 @@ textarea {
   color: #1f2937;
 }
 
-
-/* =========================
-   SUPERINTENDENT HEADER
-   ========================= */
-
 .superintendent-header {
-  width: 100%;
   min-height: 94px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 17px 45px;
-  background: #173b63;
-  color: #ffffff;
-  border-bottom: 4px solid #d8a84e;
 }
-
-.superintendent-header-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.superintendent-logo {
-  width: 58px;
-  height: 58px;
-  padding: 3px;
-  object-fit: contain;
-  background: #ffffff;
-  border-radius: 4px;
-}
-
-.superintendent-header-left h1 {
-  margin: 0;
-  color: #ffffff;
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.superintendent-header-left p {
-  margin: 4px 0 0;
-  color: #dbe7f2;
-  font-size: 13px;
-}
-
-.superintendent-header-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.superintendent-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 3px;
-}
-
-.superintendent-profile-label {
-  color: #dbe7f2;
-  font-size: 11px;
-}
-
-.superintendent-profile strong {
-  color: #ffffff;
-  font-size: 14px;
-}
-
-.superintendent-logout {
-  padding: 9px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 5px;
-  background: transparent;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.superintendent-logout:hover {
-  background: #ffffff;
-  color: #173b63;
-}
-
-
-/* =========================
-   SUPERINTENDENT MAIN
-   ========================= */
 
 .superintendent-main {
-  width: 100%;
   max-width: 1100px;
-  margin: 0 auto;
   padding: 42px 30px 60px;
 }
 
-
-/* =========================
-   SUPERINTENDENT PAGE TITLE
-   ========================= */
-
 .superintendent-page-heading {
-  text-align: center;
   margin-bottom: 30px;
   padding-bottom: 24px;
   border-bottom: 1px solid #dce3ea;
-}
-
-.superintendent-page-heading h2 {
-  margin: 0 0 8px;
-  color: #173b63;
-  font-size: 25px;
-  font-weight: 700;
-}
-
-.superintendent-page-heading p {
-  margin: 0;
-  color: #6b7280;
-  font-size: 14px;
-}
-
-
-/* =========================
-   SUPERINTENDENT INFORMATION
-   ========================= */
-
-.superintendent-info-card {
-  width: 100%;
-  margin-bottom: 25px;
-  padding: 25px;
-  background: #ffffff;
-  border: 1px solid #dde3ea;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.035);
-}
-
-.superintendent-info-title {
-  margin: 0 0 20px;
-  padding-bottom: 15px;
-  text-align: center;
-  color: #173b63;
-  font-size: 18px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.superintendent-info-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 15px;
-}
-
-.superintendent-info-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  min-height: 40px;
-  text-align: center;
-}
-
-.superintendent-info-item span {
-  color: #6b7280;
-  font-size: 12px;
-}
-
-.superintendent-info-item strong {
-  color: #374151;
-  font-size: 14px;
-}
-
-
-/* =========================
-   SUPERINTENDENT SUMMARY
-   ========================= */
-
-.superintendent-summary-grid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  margin-bottom: 28px;
 }
 
 .superintendent-summary-card {
@@ -1496,180 +1279,42 @@ textarea {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  background: #ffffff;
-  border: 1px solid #dde3ea;
-  border-radius: 9px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.035);
 }
 
 .superintendent-summary-card span {
   display: block;
   margin-bottom: 9px;
-  color: #6b7280;
-  font-size: 12px;
-  font-weight: 600;
 }
 
 .superintendent-summary-card strong {
-  color: #173b63;
   font-size: 28px;
-  font-weight: 700;
 }
-
-
-/* =========================
-   ESCALATED COMPLAINTS
-   ========================= */
 
 .superintendent-complaints-section {
   width: 100%;
-  background: #ffffff;
-  border: 1px solid #dde3ea;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.035);
-  overflow: hidden;
-}
-
-
-/* =========================
-   SECTION HEADING
-   ========================= */
-
-.superintendent-section-heading {
-  min-height: 82px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  padding: 19px 25px;
-  text-align: center;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.superintendent-section-heading h3 {
-  margin: 0;
-  color: #173b63;
-  font-size: 19px;
-  font-weight: 700;
-}
-
-.superintendent-section-heading p {
-  margin: 5px 0 0;
-  color: #6b7280;
-  font-size: 13px;
 }
 
 .superintendent-complaint-count {
-  min-width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #d9e0e8;
-  border-radius: 6px;
-  background: #f8fafc;
-  color: #173b63;
-  font-size: 14px;
-  font-weight: 700;
+  width: 40px;
 }
-
-
-/* =========================
-   SUPERINTENDENT COMPLAINT CARD
-   ========================= */
 
 .superintendent-complaint-card {
-  width: calc(100% - 48px);
-  max-width: 950px;
   margin: 22px auto;
   padding: 25px;
-  background: #ffffff;
-  border: 1px solid #dde3ea;
-  border-radius: 9px;
 }
-
-.superintendent-complaint-card:last-of-type {
-  margin-bottom: 25px;
-}
-
-
-/* =========================
-   COMPLAINT HEADER
-   ========================= */
-
-.superintendent-complaint-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  padding-bottom: 17px;
-  margin-bottom: 21px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.superintendent-complaint-header h4 {
-  margin: 0;
-  color: #1f2937;
-  font-size: 17px;
-  font-weight: 700;
-}
-
-.superintendent-complaint-type {
-  padding: 6px 11px;
-  border-radius: 5px;
-  background: #eef3f8;
-  color: #36536f;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-
-/* =========================
-   COMPLAINT DETAILS
-   ========================= */
 
 .superintendent-complaint-details {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: 22px 20px;
   padding-bottom: 21px;
   border-bottom: 1px solid #e5e7eb;
 }
 
-.superintendent-detail-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 50px;
-  text-align: center;
-}
-
-.superintendent-detail-item > span:first-child {
-  color: #6b7280;
-  font-size: 11px;
-}
-
-.superintendent-detail-item strong {
-  color: #374151;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-
-/* =========================
-   DESCRIPTION
-   ========================= */
-
 .superintendent-description {
   margin-top: 21px;
   padding-top: 20px;
+  padding-bottom: 21px;
   text-align: center;
   border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 21px;
 }
 
 .superintendent-description-title {
@@ -1689,91 +1334,6 @@ textarea {
 
 
 /* =========================
-   PHOTO
-   ========================= */
-
-.superintendent-photo-section {
-  margin-top: 20px;
-  padding-top: 20px;
-  text-align: center;
-}
-
-.superintendent-photo-section span {
-  display: block;
-  margin-bottom: 8px;
-  color: #6b7280;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.superintendent-photo-section a {
-  color: #1f4f7a;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.superintendent-photo-section a:hover {
-  text-decoration: underline;
-}
-
-.superintendent-no-photo {
-  margin-top: 20px;
-  padding-top: 20px;
-  text-align: center;
-  border-top: 1px solid #e5e7eb;
-  color: #9ca3af;
-  font-size: 12px;
-}
-
-
-/* =========================
-   EMPTY STATE
-   ========================= */
-
-.superintendent-empty-state {
-  padding: 60px 25px;
-  text-align: center;
-}
-
-.superintendent-empty-state h3 {
-  margin: 0 0 8px;
-  color: #374151;
-  font-size: 17px;
-}
-
-.superintendent-empty-state p {
-  margin: 0;
-  color: #6b7280;
-  font-size: 13px;
-}
-
-
-/* =========================
-   SUPERINTENDENT FOOTER
-   ========================= */
-
-.superintendent-footer {
-  padding: 22px 20px;
-  text-align: center;
-  background: #173b63;
-  color: #ffffff;
-  border-top: 4px solid #d8a84e;
-}
-
-.superintendent-footer p {
-  margin: 0 0 5px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.superintendent-footer span {
-  color: #dbe7f2;
-  font-size: 11px;
-}
-
-
-/* =========================
    HELP PAGE
    ========================= */
 
@@ -1783,7 +1343,11 @@ textarea {
 }
 
 .help-header {
-  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 86px;
+  padding: 12px 45px;
   background: #173b63;
   color: #ffffff;
   border-bottom: 4px solid #d8a84e;
@@ -1793,14 +1357,6 @@ textarea {
   display: flex;
   align-items: center;
   gap: 15px;
-}
-
-.help-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 86px;
-  padding: 12px 45px;
 }
 
 .help-logo {
@@ -2005,10 +1561,6 @@ textarea {
 
 @media (max-width: 900px) {
 
-  .complaint-layout {
-    grid-template-columns: 1fr;
-  }
-
   .form-grid {
     grid-template-columns: 1fr;
   }
@@ -2029,10 +1581,20 @@ textarea {
   .superintendent-complaint-details {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  /*
+    IMPORTANT:
+    Complaint layout remains two-column here.
+    It changes to one-column only at 650px.
+  */
 }
 
 
 @media (max-width: 650px) {
+
+  .complaint-layout {
+    grid-template-columns: 1fr;
+  }
 
   .portal-header-content {
     padding: 16px 20px;
@@ -2041,7 +1603,8 @@ textarea {
     gap: 12px;
   }
 
-  .portal-hostel {
+  .portal-hostel,
+  .help-hostel {
     align-items: flex-start;
   }
 
@@ -2063,8 +1626,8 @@ textarea {
 
   .student-header,
   .warden-header,
-  .help-header,
-  .superintendent-header {
+  .superintendent-header,
+  .help-header {
     padding: 16px 20px;
     flex-direction: column;
     align-items: flex-start;
@@ -2123,7 +1686,8 @@ textarea {
     gap: 10px;
   }
 
-  .warden-status-select {
+  .warden-status-select,
+  .superintendent-status-select {
     width: 100%;
   }
 
@@ -2134,10 +1698,6 @@ textarea {
   .complaint-table-header,
   .complaint-table-row {
     min-width: 850px;
-  }
-
-  .help-hostel {
-    align-items: flex-start;
   }
 
   .contact-row,
