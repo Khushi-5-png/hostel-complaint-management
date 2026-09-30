@@ -1,0 +1,564 @@
+<div class="complaint-page">
+
+  <!-- =========================
+       HEADER
+       ========================= -->
+
+  <header class="portal-header">
+
+    <div class="portal-header-content">
+
+      <div class="portal-brand">
+
+        <img
+          src="centurion-logo.jpg"
+          alt="Centurion University Logo"
+          class="portal-logo"
+        >
+
+        <div>
+
+          <h1>
+            Hostel Complaint Management System
+          </h1>
+
+          <p>
+            Student Complaint Portal
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="portal-hostel">
+
+        <span>
+          Hostel
+        </span>
+
+        <strong>
+          Block B Hostel
+        </strong>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       MAIN CONTENT
+       ========================= -->
+
+  <main class="complaint-main">
+
+    <!-- PAGE TITLE -->
+
+    <div class="page-title">
+
+      <h2>
+        Submit a Hostel Complaint
+      </h2>
+
+      <p>
+        Please provide the details below to register your complaint.
+      </p>
+
+    </div>
+
+
+    <!-- =========================
+         TWO COLUMN LAYOUT
+         ========================= -->
+
+    <div class="complaint-layout">
+
+
+      <!-- =========================
+           COMPLAINT FORM
+           ========================= -->
+
+      <section class="form-panel">
+
+
+        <div class="section-header">
+
+          <h3>
+            Complaint Details
+          </h3>
+
+          <p>
+            All required information should be provided.
+          </p>
+
+        </div>
+
+
+        <form
+          (ngSubmit)="submitComplaint()"
+        >
+
+
+          <!-- =========================
+               STUDENT INFORMATION
+               ========================= -->
+
+          <div class="form-section">
+
+            <h4>
+              Student Information
+            </h4>
+
+
+            <div class="form-grid">
+
+
+              <!-- STUDENT NAME -->
+
+              <div class="form-group">
+
+                <label for="studentName">
+                  Student Name
+                  <span>*</span>
+                </label>
+
+                <input
+                  type="text"
+                  id="studentName"
+                  name="studentName"
+                  [(ngModel)]="studentName"
+                  placeholder="Enter your full name"
+                  required
+                >
+
+              </div>
+
+
+              <!-- ROOM NUMBER -->
+
+              <div class="form-group">
+
+                <label for="roomNumber">
+                  Room Number
+                  <span>*</span>
+                </label>
+
+                <input
+                  type="text"
+                  id="roomNumber"
+                  name="roomNumber"
+                  [(ngModel)]="roomNumber"
+                  placeholder="Enter room number"
+                  required
+                >
+
+              </div>
+
+
+              <!-- BLOCK -->
+
+              <div class="form-group">
+
+                <label for="block">
+                  Block
+                  <span>*</span>
+                </label>
+
+                <select
+                  id="block"
+                  name="block"
+                  [(ngModel)]="block"
+                  required
+                >
+
+                  <option value="">
+                    Select Block
+                  </option>
+
+                  <option value="Block A">
+                    Block A
+                  </option>
+
+                  <option value="Block B">
+                    Block B
+                  </option>
+
+                  <option value="Block C">
+                    Block C
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <!-- WARDEN -->
+
+              <div class="form-group">
+
+                <label for="warden">
+                  Assigned Warden
+                  <span>*</span>
+                </label>
+
+                <select
+                  id="warden"
+                  name="warden"
+                  [(ngModel)]="warden"
+                  required
+                >
+
+                  <option value="">
+                    Select Warden
+                  </option>
+
+                  <option value="Pramila Dash">
+                    Pramila Dash
+                  </option>
+
+                  <option value="Parbati Mahapatra">
+                    Parbati Mahapatra
+                  </option>
+
+                  <option value="Rashmi Rekha Swain">
+                    Rashmi Rekha Swain
+                  </option>
+
+                  <option value="Binod Manjari">
+                    Binod Manjari
+                  </option>
+
+                  <option value="Kanaklata Jena">
+                    Kanaklata Jena
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- =========================
+               COMPLAINT INFORMATION
+               ========================= -->
+
+          <div class="form-section">
+
+            <h4>
+              Complaint Information
+            </h4>
+
+
+            <!-- COMPLAINT TYPE -->
+
+            <div class="form-group">
+
+              <label for="complaintType">
+                Complaint Type
+                <span>*</span>
+              </label>
+
+              <select
+                id="complaintType"
+                name="complaintType"
+                [(ngModel)]="complaintType"
+                required
+              >
+
+                <option value="">
+                  Select Complaint Type
+                </option>
+
+                <option value="Water / Bathroom Leakage">
+                  Water / Bathroom Leakage
+                </option>
+
+                <option value="Electricity">
+                  Electricity
+                </option>
+
+                <option value="WiFi">
+                  WiFi
+                </option>
+
+                <option value="Food">
+                  Food
+                </option>
+
+                <option value="Room Cleaning">
+                  Room Cleaning
+                </option>
+
+                <option value="Furniture">
+                  Furniture
+                </option>
+
+                <option value="Door / Lock">
+                  Door / Lock
+                </option>
+
+                <option value="Security">
+                  Security
+                </option>
+
+                <option value="Other">
+                  Other
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+              <label for="description">
+                Complaint Description
+                <span>*</span>
+              </label>
+
+              <textarea
+                id="description"
+                name="description"
+                [(ngModel)]="description"
+                rows="6"
+                placeholder="Provide a clear description of the complaint..."
+                required
+              ></textarea>
+
+            </div>
+
+
+            <!-- PHOTO -->
+
+            <div class="form-group">
+
+              <label for="photo">
+                Supporting Photograph
+              </label>
+
+              <input
+                type="file"
+                id="photo"
+                name="photo"
+                accept="image/*"
+                (change)="onPhotoSelected($event)"
+              >
+
+              <small>
+                Attach a photograph when it helps explain the issue.
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <!-- =========================
+               ESCALATION
+               ========================= -->
+
+          <div class="form-section">
+
+            <h4>
+              Escalation
+            </h4>
+
+            <div class="form-group">
+
+              <label>
+                Send complaint to Superintendent?
+                <span>*</span>
+              </label>
+
+
+              <div class="radio-group">
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="sendToSuperintendent"
+                    [(ngModel)]="sendToSuperintendent"
+                    [value]="true"
+                  >
+
+                  Yes
+
+                </label>
+
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="sendToSuperintendent"
+                    [(ngModel)]="sendToSuperintendent"
+                    [value]="false"
+                  >
+
+                  No
+
+                </label>
+
+              </div>
+
+            </div>
+
+
+            <!-- SUPERINTENDENT SELECT -->
+
+            <div
+              class="form-group"
+              *ngIf="sendToSuperintendent"
+            >
+
+              <label for="superintendent">
+
+                Superintendent
+
+                <span>*</span>
+
+              </label>
+
+              <select
+                id="superintendent"
+                name="superintendent"
+                [(ngModel)]="superintendent"
+                required
+              >
+
+                <option value="Basanta Manjari Dash">
+                  Basanta Manjari Dash
+                </option>
+
+              </select>
+
+              <small>
+                Select the Superintendent to whom this complaint should be escalated.
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <!-- =========================
+               SUBMIT
+               ========================= -->
+
+          <div class="form-actions">
+
+            <button
+              type="submit"
+            >
+              Submit Complaint
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+
+      <!-- =========================
+           RIGHT SIDE
+           ========================= -->
+
+      <aside class="administration-panel">
+
+
+        <!-- NEED HELP -->
+
+        <div class="admin-card need-help-card">
+
+          <h3>
+            Need Help?
+          </h3>
+
+          <p>
+            For assistance regarding hostel complaints
+            or hostel facilities, contact the administration.
+          </p>
+
+          <a
+            href="/help"
+            class="help-button"
+          >
+            Help & Contact Information
+          </a>
+
+        </div>
+
+
+        <!-- BEFORE SUBMIT -->
+
+        <div class="admin-card information-card">
+
+          <h3>
+            Before You Submit
+          </h3>
+
+          <p>
+            Please ensure that the complaint information
+            is accurate and complete.
+          </p>
+
+          <ul>
+
+            <li>
+              Provide the correct room number.
+            </li>
+
+            <li>
+              Select the appropriate warden.
+            </li>
+
+            <li>
+              Describe the issue clearly.
+            </li>
+
+            <li>
+              Attach supporting evidence when required.
+            </li>
+
+            <li>
+              Escalate to the Superintendent when necessary.
+            </li>
+
+          </ul>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+       ========================= -->
+
+  <footer class="student-footer">
+
+    <p>
+      Centurion University of Technology and Management
+    </p>
+
+    <span>
+      Hostel Complaint Management System
+    </span>
+
+  </footer>
+
+</div>
