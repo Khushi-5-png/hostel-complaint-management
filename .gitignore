@@ -1,10 +1,17 @@
+# =========================
+# Spring Boot / Maven
+# =========================
+
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+# =========================
+# STS
+# =========================
+
 .apt_generated
 .classpath
 .factorypath
@@ -13,13 +20,19 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
+# =========================
+# IntelliJ IDEA
+# =========================
+
+.idea/
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# =========================
+# NetBeans
+# =========================
+
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -29,15 +42,57 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
-.vscode/
+# =========================
+# VS Code
+# =========================
 
-src/main/resources/application.properties
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+
+# =========================
+# Angular / Node
+# =========================
 
 frontend/node_modules/
-
 frontend/dist/
+frontend/.angular/
+frontend/coverage/
 
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# =========================
+# Angular temporary files
+# =========================
+
+/tmp
+/out-tsc
+/bazel-out
+/.angular/cache
+.sass-cache/
+/connect.lock
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
+
+# =========================
+# Project secrets / uploads
+# =========================
+
+src/main/resources/application.properties
 uploads/
-
 .env
+
+# =========================
+# System files
+# =========================
+
+.DS_Store
+Thumbs.db
