@@ -1,59 +1,99 @@
-# Frontend
+# Hostel Complaint Management System
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.2.
+A web-based application designed to simplify hostel complaint registration and management. It provides students with a platform to submit complaints and track their status, while administrators can manage and monitor complaints efficiently.
 
-## Development server
+## Project Overview
 
-To start a local development server, run:
+The Hostel Complaint Management System aims to reduce manual complaint handling and make the complaint resolution process more organized and transparent.
+
+## Key Features
+
+### Student Module
+- Student dashboard.
+- Submit hostel-related complaints.
+- View submitted complaints.
+- Track complaint status.
+- Access complaint information through the portal.
+
+### Admin Module
+- Manage student complaints.
+- View complaint records.
+- Monitor complaint statuses.
+- Support organized complaint resolution.
+
+## Technology Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Angular |
+| Backend | Spring Boot |
+| Programming Language | Java |
+| Database | PostgreSQL |
+| API Communication | REST API |
+
+## Project Structure
+
+- **Frontend:** Angular application for the student interface.
+- **Backend:** Spring Boot application for business logic and API handling.
+- **Database:** PostgreSQL for storing application data.
+
+## Getting Started
+
+### Prerequisites
+
+Install the following before running the project:
+
+- Node.js and npm
+- Angular CLI
+- Java Development Kit (JDK)
+- PostgreSQL
+- IntelliJ IDEA or VS Code
+
+### Frontend Setup
+
+1. Navigate to the frontend project directory.
+2. Install dependencies:
 
 ```bash
-
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+3. Start the Angular development server:
 
 ```bash
-ng generate component component-name
+ng serve
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+4. Open your browser:
 
-```bash
-ng generate --help
+```text
+http://localhost:4200/
 ```
 
-## Building
+### Backend Setup
 
-To build the project run:
+1. Open the Spring Boot backend in IntelliJ IDEA.
+2. Configure your PostgreSQL database connection.
+3. Run the Spring Boot application.
+4. The backend runs on the configured server port.
 
-```bash
-ng build
-```
+## Future Improvements
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- Email notifications for complaint updates.
+- Complaint priority management.
+- Complaint resolution analytics.
+- Improved admin dashboard.
+- Role-based access management.
 
-## Running unit tests
+## Author
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+**Khushi Sonar**
 
-```bash
-ng test
-```
+B.Tech Computer Science and Engineering  
+Centurion University of Technology and Management
 
-## Running end-to-end tests
+GitHub: [Khushi-5-png](https://github.com/Khushi-5-png)
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+*Developed as a Hostel Complaint Management System project.*
