@@ -458,9 +458,12 @@
 
             <button
               type="submit"
+              [disabled]="isSubmitting"
             >
-              Submit Complaint
+              {{ isSubmitting ? 'Submitting...' : 'Submit Complaint' }}
             </button>
+
+          </div>
 
           </div>
 

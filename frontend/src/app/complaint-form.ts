@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -29,6 +30,8 @@ export class ComplaintFormComponent {
 
   photo: File | null = null;
 
+  isSubmitting = false;
+
   constructor(private http: HttpClient) {}
 
   onPhotoSelected(event: Event) {
@@ -41,9 +44,33 @@ export class ComplaintFormComponent {
 
   submitComplaint() {
 
+    // Prevent duplicate submissions
+    if (this.isSubmitting) {
+      return;
+    }
+
+    // Check required text fields
+    if (
+      !this.studentName.trim() ||
+      !this.roomNumber.trim() ||
+      !this.block ||
+      !this.warden ||
+      !this.complaintType ||
+      !this.description.trim()
+    ) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    // Check minimum meaningful description length
+    if (this.description.trim().length < 10) {
+      alert('Complaint description must contain at least 10 characters.');
+      return;
+    }
+
     const complaint = {
-      studentName: this.studentName,
-      roomNumber: this.roomNumber,
+      studentName: this.studentName.trim(),
+      roomNumber: this.roomNumber.trim(),
       block: this.block,
       warden: this.warden,
 
@@ -52,7 +79,7 @@ export class ComplaintFormComponent {
         : null,
 
       complaintType: this.complaintType,
-      description: this.description,
+      description: this.description.trim(),
       photoViewed: false
     };
 
@@ -70,6 +97,8 @@ export class ComplaintFormComponent {
       formData.append('photo', this.photo);
     }
 
+    this.isSubmitting = true;
+
     this.http.post(
       'http://localhost:8080/complaints',
       formData
@@ -82,15 +111,12 @@ export class ComplaintFormComponent {
           response
         );
 
-        // Save the student's name for the Student Dashboard
         localStorage.setItem(
           'studentName',
-          this.studentName
+          this.studentName.trim()
         );
 
-        alert(
-          'Complaint submitted successfully!'
-        );
+        alert('Complaint submitted successfully!');
 
         this.studentName = '';
         this.roomNumber = '';
@@ -102,6 +128,8 @@ export class ComplaintFormComponent {
 
         this.sendToSuperintendent = false;
         this.superintendent = 'Basanta Manjari Dash';
+
+        this.isSubmitting = false;
       },
 
       error: (error) => {
@@ -111,9 +139,9 @@ export class ComplaintFormComponent {
           error
         );
 
-        alert(
-          'Failed to submit complaint.'
-        );
+        alert('Failed to submit complaint.');
+
+        this.isSubmitting = false;
       }
     });
   }
