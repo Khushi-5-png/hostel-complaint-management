@@ -1,18 +1,28 @@
 import { Routes } from '@angular/router';
-import { ComplaintFormComponent } from './complaint-form';
 import { LoginComponent } from './login';
+import { ComplaintFormComponent } from './complaint-form';
 import { StudentDashboardComponent } from './student-dashboard';
-import { WardenDashboardComponent } from './warden-dashboard';
-import { SuperintendentDashboardComponent } from './superintendent-dashboard';
+import { AdminDashboardComponent } from './admin-dashboard';
 import { HelpComponent } from './help';
 import { ResetPasswordComponent } from './reset-password';
+import { WardenDashboardComponent } from './warden-dashboard';
+import { SuperintendentDashboardComponent } from './superintendent-dashboard';
 
 export const routes: Routes = [
+  // 1. The Front Door: Login is now the very first page!
+  { path: '', component: LoginComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'help', component: HelpComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
+
+  // 2. Inside: Admin, Warden & Superintendent Portal
+  { path: 'admin', component: AdminDashboardComponent },
+  { path: 'warden', component: AdminDashboardComponent },
+  { path: 'superintendent', component: AdminDashboardComponent },
+
+  // 3. Inside: Student Portal
   { path: 'student-dashboard', component: StudentDashboardComponent },
-  { path: 'warden', component: WardenDashboardComponent },
-  { path: 'superintendent', component: SuperintendentDashboardComponent },
-  { path: '', component: ComplaintFormComponent, pathMatch: 'full' }
+  { path: 'complaint', component: ComplaintFormComponent },
+
+  // 4. Utilities
+  { path: 'help', component: HelpComponent },
+  { path: 'reset-password', component: ResetPasswordComponent }
 ];

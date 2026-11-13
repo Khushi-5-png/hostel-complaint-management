@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
 
         <!-- LOGIN MODE -->
         <ng-container *ngIf="!showForgotPassword">
-          <h1>Login</h1>
+          <h1>Hostel Portal Login</h1>
 
           <!-- ROLE -->
           <div class="form-group">
@@ -39,18 +39,21 @@ import { Router } from '@angular/router';
               <option value="student">Student</option>
               <option value="warden">Warden</option>
               <option value="superintendent">Superintendent</option>
+              <option value="admin">Administrator</option>
             </select>
           </div>
 
           <!-- USERNAME / REGISTRATION ID -->
           <div class="form-group">
-            <label for="username">College Registration ID</label>
+            <label for="username">
+              {{ role === 'student' ? 'College Registration ID' : 'Username / Staff ID' }}
+            </label>
             <input
               type="text"
               id="username"
               name="username"
               [(ngModel)]="username"
-              placeholder="Enter registration ID"
+              placeholder="Enter your ID or username"
               autocomplete="username"
             >
           </div>
@@ -79,6 +82,13 @@ import { Router } from '@angular/router';
           >
             Forgot Password?
           </button>
+
+          <!-- BACK TO HOME -->
+          <div style="margin-top: 16px; text-align: center;">
+            <a href="/" style="font-size: 13px; color: #003366; text-decoration: none; font-weight: 600;">
+              ← Back to Complaint Form
+            </a>
+          </div>
 
           <!-- ERROR -->
           <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
@@ -165,9 +175,6 @@ export class LoginComponent {
     this.successMessage = '';
   }
 
-  // =========================
-  // REQUEST PASSWORD RESET (SEND OTP)
-  // =========================
   requestPasswordReset() {
     this.errorMessage = '';
     this.successMessage = '';
@@ -190,18 +197,11 @@ export class LoginComponent {
       },
       error: (error) => {
         console.error('Password reset error:', error);
-        if (typeof error.error === 'string') {
-          this.errorMessage = error.error;
-        } else {
-          this.errorMessage = 'Unable to send OTP. Please check your email and make sure the backend is running.';
-        }
+        this.errorMessage = 'Unable to send OTP. Please check your email.';
       }
     });
   }
 
-  // =========================
-  // LOGIN VIA BACKEND API
-  // =========================
   login() {
     this.errorMessage = '';
     this.successMessage = '';
@@ -211,46 +211,55 @@ export class LoginComponent {
       return;
     }
 
+    const trimmedUsername = this.username.trim().toLowerCase();
+
+    // 1. Staff Logins (Admin, Warden, Superintendent -> Unified Admin Dashboard)
+    if (this.role === 'admin' && trimmedUsername === 'admin' && this.password === '1234') {
+      localStorage.setItem('loggedInRole', 'admin');
+      this.router.navigate(['/admin']);
+      return;
+    }
+
+    if (this.role === 'warden' && (trimmedUsername === 'pramila' || trimmedUsername === 'warden') && this.password === '1234') {
+      localStorage.setItem('loggedInRole', 'warden');
+      localStorage.setItem('loggedInWarden', 'Pramila Dash');
+      this.router.navigate(['/admin']);
+      return;
+    }
+
+    if (this.role === 'superintendent' && trimmedUsername === 'superintendent' && this.password === '1234') {
+      localStorage.setItem('loggedInRole', 'superintendent');
+      this.router.navigate(['/admin']);
+      return;
+    }
+
+    // 2. Database Login for Registered Students & Staff
     const params = new HttpParams()
       .set('collegeRegistrationId', this.username.trim())
       .set('password', this.password);
 
-    this.http.post<any>(
-      'http://localhost:8080/auth/login',
-      null,
-      { params }
-    ).subscribe({
+    this.http.post<any>('http://localhost:8080/auth/login', null, { params }).subscribe({
       next: (response) => {
         const userRole = (response.role || '').toLowerCase();
 
-        // Check if selected role matches user's assigned role
-        if (this.role.toLowerCase() !== userRole) {
-          this.errorMessage = `Account found, but you are registered as a ${response.role}, not a ${this.role}.`;
-          return;
-        }
-
-        // Store login session
         localStorage.setItem('loggedInRole', userRole);
         localStorage.setItem('studentName', response.name);
 
-        // Redirect based on role
-        if (userRole === 'warden') {
-          localStorage.setItem('loggedInWarden', response.name);
-          this.router.navigate(['/warden']);
-        } else if (userRole === 'superintendent') {
-          this.router.navigate(['/superintendent']);
-        } else {
+        if (userRole === 'student') {
           this.router.navigate(['/student-dashboard']);
+        } else {
+          if (userRole === 'warden') {
+            localStorage.setItem('loggedInWarden', response.name);
+          }
+          this.router.navigate(['/admin']);
         }
       },
       error: (error) => {
         console.error('Login error:', error);
         if (error.error && error.error.message) {
           this.errorMessage = error.error.message;
-        } else if (typeof error.error === 'string') {
-          this.errorMessage = error.error;
         } else {
-          this.errorMessage = 'Invalid credentials or unable to connect to backend.';
+          this.errorMessage = 'Invalid ID or password. Please verify your credentials.';
         }
       }
     });
