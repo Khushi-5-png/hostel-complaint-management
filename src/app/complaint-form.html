@@ -17,18 +17,18 @@
         </div>
       </div>
 
-      <!-- HOSTEL & LOGIN BUTTON -->
-      <div style="display: flex; gap: 20px; align-items: center;">
+      <!-- HOSTEL & BACK TO DASHBOARD -->
+      <div style="display: flex; gap: 16px; align-items: center;">
         <div class="portal-hostel">
           <span>Hostel</span>
           <strong>Block B Hostel</strong>
         </div>
 
         <a
-          href="/login"
+          href="/student-dashboard"
           style="background: #003366; color: white; padding: 10px 18px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);"
         >
-          🔐 Portal Login
+          ← Back to Dashboard
         </a>
       </div>
     </div>
@@ -65,8 +65,13 @@
           <div class="form-section">
             <h4>Student Information</h4>
             <div class="form-grid">
+
+              <!-- AUTO-FILLED STUDENT NAME -->
               <div class="form-group">
-                <label for="studentName">Student Name <span>*</span></label>
+                <label for="studentName">
+                  Student Name <span>*</span>
+                  <small style="color: #16a34a; font-weight: normal; margin-left: 6px;">(Auto-filled)</small>
+                </label>
                 <input
                   type="text"
                   id="studentName"
@@ -77,6 +82,7 @@
                 >
               </div>
 
+              <!-- ROOM NUMBER -->
               <div class="form-group">
                 <label for="roomNumber">Room Number <span>*</span></label>
                 <input
@@ -89,6 +95,7 @@
                 >
               </div>
 
+              <!-- BLOCK -->
               <div class="form-group">
                 <label for="block">Block <span>*</span></label>
                 <select id="block" name="block" [(ngModel)]="block" required>
@@ -99,6 +106,7 @@
                 </select>
               </div>
 
+              <!-- ASSIGNED WARDEN -->
               <div class="form-group">
                 <label for="warden">Assigned Warden <span>*</span></label>
                 <select id="warden" name="warden" [(ngModel)]="warden" required>
@@ -194,26 +202,25 @@
             </div>
           </div>
 
-          <!-- SUBMIT -->
-          <div class="form-actions">
+          <!-- SUBMIT & CANCEL -->
+          <div class="form-actions" style="display: flex; gap: 12px; align-items: center;">
             <button type="submit">Submit Complaint</button>
+            <a
+              href="/student-dashboard"
+              style="padding: 10px 18px; border: 1px solid #cbd5e1; border-radius: 4px; color: #475569; text-decoration: none; font-weight: 600; font-size: 13px;"
+            >
+              Cancel
+            </a>
           </div>
         </form>
       </section>
 
-      <!-- RIGHT SIDE -->
+      <!-- RIGHT SIDE HELP -->
       <aside class="administration-panel">
         <div class="admin-card need-help-card">
           <h3>Need Help?</h3>
           <p>For assistance regarding hostel complaints or hostel facilities, contact the administration.</p>
           <a href="/help" class="help-button">Help & Contact Information</a>
-          <a
-            href="/login"
-            class="help-button"
-            style="margin-top: 10px; background: #003366; color: white; text-align: center; display: block;"
-          >
-            🔐 Staff & Student Login
-          </a>
         </div>
 
         <div class="admin-card information-card">

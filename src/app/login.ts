@@ -83,13 +83,6 @@ import { Router } from '@angular/router';
             Forgot Password?
           </button>
 
-          <!-- BACK TO HOME -->
-          <div style="margin-top: 16px; text-align: center;">
-            <a href="/" style="font-size: 13px; color: #003366; text-decoration: none; font-weight: 600;">
-              ← Back to Complaint Form
-            </a>
-          </div>
-
           <!-- ERROR -->
           <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
         </ng-container>
@@ -101,7 +94,6 @@ import { Router } from '@angular/router';
             Enter your registered email address. We will send you an OTP to reset your password.
           </p>
 
-          <!-- EMAIL -->
           <div class="form-group">
             <label for="resetEmail">Email Address</label>
             <input
@@ -114,10 +106,8 @@ import { Router } from '@angular/router';
             >
           </div>
 
-          <!-- SEND OTP -->
           <button type="button" (click)="requestPasswordReset()">Send OTP</button>
 
-          <!-- BACK -->
           <button
             type="button"
             class="forgot-password-button"
@@ -126,10 +116,7 @@ import { Router } from '@angular/router';
             Back to Login
           </button>
 
-          <!-- SUCCESS -->
           <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
-
-          <!-- ERROR -->
           <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
         </ng-container>
 
@@ -143,7 +130,6 @@ export class LoginComponent {
   username = '';
   password = '';
 
-  // FORGOT PASSWORD
   showForgotPassword = false;
   resetEmail = '';
   successMessage = '';
@@ -213,13 +199,22 @@ export class LoginComponent {
 
     const trimmedUsername = this.username.trim().toLowerCase();
 
-    // 1. Staff Logins (Admin, Warden, Superintendent -> Unified Admin Dashboard)
+    // 1. FAST STUDENT LOGIN (KHUSHI -> STUDENT DASHBOARD)
+    if (this.role === 'student' && trimmedUsername === 'khushi' && this.password === '1234') {
+      localStorage.setItem('loggedInRole', 'student');
+      localStorage.setItem('studentName', 'Khushi');
+      this.router.navigate(['/student-dashboard']);
+      return;
+    }
+
+    // 2. FAST ADMIN LOGIN (ADMIN -> UNIFIED ADMIN DASHBOARD)
     if (this.role === 'admin' && trimmedUsername === 'admin' && this.password === '1234') {
       localStorage.setItem('loggedInRole', 'admin');
       this.router.navigate(['/admin']);
       return;
     }
 
+    // 3. FAST WARDEN LOGIN (PRAMILA -> UNIFIED ADMIN DASHBOARD)
     if (this.role === 'warden' && (trimmedUsername === 'pramila' || trimmedUsername === 'warden') && this.password === '1234') {
       localStorage.setItem('loggedInRole', 'warden');
       localStorage.setItem('loggedInWarden', 'Pramila Dash');
@@ -227,41 +222,13 @@ export class LoginComponent {
       return;
     }
 
+    // 4. FAST SUPERINTENDENT LOGIN (SUPERINTENDENT -> UNIFIED ADMIN DASHBOARD)
     if (this.role === 'superintendent' && trimmedUsername === 'superintendent' && this.password === '1234') {
       localStorage.setItem('loggedInRole', 'superintendent');
       this.router.navigate(['/admin']);
       return;
     }
 
-    // 2. Database Login for Registered Students & Staff
+    // 5. DATABASE LOGIN (FOR OTHER REGISTERED USERS VIA POSTGRESQL)
     const params = new HttpParams()
-      .set('collegeRegistrationId', this.username.trim())
-      .set('password', this.password);
-
-    this.http.post<any>('http://localhost:8080/auth/login', null, { params }).subscribe({
-      next: (response) => {
-        const userRole = (response.role || '').toLowerCase();
-
-        localStorage.setItem('loggedInRole', userRole);
-        localStorage.setItem('studentName', response.name);
-
-        if (userRole === 'student') {
-          this.router.navigate(['/student-dashboard']);
-        } else {
-          if (userRole === 'warden') {
-            localStorage.setItem('loggedInWarden', response.name);
-          }
-          this.router.navigate(['/admin']);
-        }
-      },
-      error: (error) => {
-        console.error('Login error:', error);
-        if (error.error && error.error.message) {
-          this.errorMessage = error.error.message;
-        } else {
-          this.errorMessage = 'Invalid ID or password. Please verify your credentials.';
-        }
-      }
-    });
-  }
-}
+      .set('collegeRegistrationId', this.username.trim

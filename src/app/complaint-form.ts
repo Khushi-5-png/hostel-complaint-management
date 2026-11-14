@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-complaint-form',
@@ -14,7 +15,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   templateUrl: './complaint-form.html',
   styleUrl: './app.css'
 })
-export class ComplaintFormComponent {
+export class ComplaintFormComponent implements OnInit {
 
   studentName = '';
   roomNumber = '';
@@ -29,7 +30,18 @@ export class ComplaintFormComponent {
 
   photo: File | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    // 1. Auto-fill student name from the login session
+    const savedName = localStorage.getItem('studentName');
+    if (savedName) {
+      this.studentName = savedName;
+    }
+  }
 
   onPhotoSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -46,11 +58,9 @@ export class ComplaintFormComponent {
       roomNumber: this.roomNumber,
       block: this.block,
       warden: this.warden,
-
       superintendent: this.sendToSuperintendent
         ? this.superintendent
         : null,
-
       complaintType: this.complaintType,
       description: this.description,
       photoViewed: false
@@ -74,46 +84,17 @@ export class ComplaintFormComponent {
       'http://localhost:8080/complaints',
       formData
     ).subscribe({
-
       next: (response) => {
+        console.log('Complaint submitted:', response);
 
-        console.log(
-          'Complaint submitted:',
-          response
-        );
+        alert('Complaint submitted successfully!');
 
-        // Save the student's name for the Student Dashboard
-        localStorage.setItem(
-          'studentName',
-          this.studentName
-        );
-
-        alert(
-          'Complaint submitted successfully!'
-        );
-
-        this.studentName = '';
-        this.roomNumber = '';
-        this.block = '';
-        this.warden = '';
-        this.complaintType = '';
-        this.description = '';
-        this.photo = null;
-
-        this.sendToSuperintendent = false;
-        this.superintendent = 'Basanta Manjari Dash';
+        // Automatically take student back to her dashboard to see her complaint!
+        this.router.navigate(['/student-dashboard']);
       },
-
       error: (error) => {
-
-        console.error(
-          'Error submitting complaint:',
-          error
-        );
-
-        alert(
-          'Failed to submit complaint.'
-        );
+        console.error('Error submitting complaint:', error);
+        alert('Failed to submit complaint. Please check your connection.');
       }
     });
   }
