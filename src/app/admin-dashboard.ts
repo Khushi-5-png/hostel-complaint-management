@@ -126,17 +126,87 @@ import { Router } from '@angular/router';
              TAB 1: ALL COMPLAINTS (OVERVIEW / ADMIN)
              ========================================================= -->
         <div *ngIf="activeTab === 'all'">
+
+          <!-- SEARCH & FILTER TOOLBAR -->
+          <section class="warden-info-card" style="margin-bottom: 20px; background: #ffffff; border: 1px solid #e2e8f0;">
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+
+              <!-- SEARCH BOX -->
+              <div style="flex: 2; min-width: 220px;">
+                <label style="display: block; font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 4px;">🔍 Search Complaints:</label>
+                <input
+                  type="text"
+                  [(ngModel)]="searchQuery"
+                  placeholder="Search by student, room (e.g. 102), ID (#7)..."
+                  style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; box-sizing: border-box;"
+                >
+              </div>
+
+              <!-- CATEGORY FILTER -->
+              <div style="flex: 1; min-width: 160px;">
+                <label style="display: block; font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 4px;">🏷️ Category:</label>
+                <select
+                  [(ngModel)]="categoryFilter"
+                  style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; box-sizing: border-box;"
+                >
+                  <option value="">All Categories</option>
+                  <option value="Water / Bathroom Leakage">Water / Leakage</option>
+                  <option value="Electricity">Electricity</option>
+                  <option value="WiFi">WiFi</option>
+                  <option value="Food">Food</option>
+                  <option value="Room Cleaning">Room Cleaning</option>
+                  <option value="Furniture">Furniture</option>
+                  <option value="Door / Lock">Door / Lock</option>
+                  <option value="Security">Security</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <!-- STATUS FILTER -->
+              <div style="flex: 1; min-width: 140px;">
+                <label style="display: block; font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 4px;">📌 Status:</label>
+                <select
+                  [(ngModel)]="statusFilter"
+                  style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; box-sizing: border-box;"
+                >
+                  <option value="">All Statuses</option>
+                  <option value="Pending">Pending</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Resolved">Resolved</option>
+                </select>
+              </div>
+
+              <!-- RESET BUTTON -->
+              <div style="align-self: flex-end;">
+                <button
+                  type="button"
+                  (click)="resetFilters()"
+                  style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 600;"
+                >
+                  Reset
+                </button>
+              </div>
+
+            </div>
+
+            <!-- RESULT COUNT -->
+            <div style="margin-top: 10px; font-size: 12px; color: #64748b;">
+              Showing <strong>{{ getFilteredAllComplaints().length }}</strong> of {{ complaints.length }} complaints
+            </div>
+          </section>
+
+          <!-- COMPLAINTS LIST -->
           <section class="warden-complaints-section">
             <div class="warden-section-heading">
               <div>
                 <h3>All Complaints (Campus-Wide)</h3>
                 <p>Viewing all registered hostel issues across all blocks</p>
               </div>
-              <span class="warden-complaint-count">{{ complaints.length }}</span>
+              <span class="warden-complaint-count">{{ getFilteredAllComplaints().length }}</span>
             </div>
 
             <!-- Complaint Cards -->
-            <div class="warden-complaint-card" *ngFor="let complaint of complaints">
+            <div class="warden-complaint-card" *ngFor="let complaint of getFilteredAllComplaints()">
               <div class="warden-complaint-header">
                 <div class="complaint-title-group">
                   <h4>Complaint #{{ complaint.id }}</h4>
@@ -197,6 +267,11 @@ import { Router } from '@angular/router';
                   View Attached Photo
                 </a>
               </div>
+            </div>
+
+            <div class="warden-empty-state" *ngIf="getFilteredAllComplaints().length === 0">
+              <h3>No Matching Complaints Found</h3>
+              <p>No complaints match your search or filter criteria.</p>
             </div>
           </section>
         </div>
@@ -412,6 +487,11 @@ export class AdminDashboardComponent implements OnInit {
   activeTab = 'all'; // 'all' | 'warden' | 'superintendent' | 'hostellers'
   currentUserRole = 'Administrator';
 
+  // Search & Filter state
+  searchQuery = '';
+  categoryFilter = '';
+  statusFilter = '';
+
   // Warden List
   wardensList = [
     'Pramila Dash',
@@ -457,6 +537,46 @@ export class AdminDashboardComponent implements OnInit {
       },
       error: (err) => console.error('Error loading complaints:', err)
     });
+  }
+
+  // Filtered list for Tab 1 (All Complaints)
+  getFilteredAllComplaints(): any[] {
+    return this.complaints.filter((c) => {
+      // 1. Text Search (Student, Room Number, ID, Description)
+      if (this.searchQuery.trim()) {
+        const q = this.searchQuery.trim().toLowerCase();
+        const idMatch = ('#' + c.id).toLowerCase().includes(q) || ('' + c.id).includes(q);
+        const nameMatch = (c.studentName || '').toLowerCase().includes(q);
+        const roomMatch = (c.roomNumber || '').toLowerCase().includes(q);
+        const descMatch = (c.description || '').toLowerCase().includes(q);
+
+        if (!idMatch && !nameMatch && !roomMatch && !descMatch) {
+          return false;
+        }
+      }
+
+      // 2. Category Filter
+      if (this.categoryFilter) {
+        if ((c.complaintType || '').toLowerCase() !== this.categoryFilter.toLowerCase()) {
+          return false;
+        }
+      }
+
+      // 3. Status Filter
+      if (this.statusFilter) {
+        if ((c.status || 'Pending').toLowerCase() !== this.statusFilter.toLowerCase()) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }
+
+  resetFilters() {
+    this.searchQuery = '';
+    this.categoryFilter = '';
+    this.statusFilter = '';
   }
 
   getWardenComplaints() {

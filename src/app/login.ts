@@ -230,5 +230,37 @@ export class LoginComponent {
     }
 
     // 5. DATABASE LOGIN (FOR OTHER REGISTERED USERS VIA POSTGRESQL)
+    const cleanId = String(this.username).trim();
+    const cleanPassword = String(this.password);
+
     const params = new HttpParams()
-      .set('collegeRegistrationId', this.username.trim
+      .set('collegeRegistrationId', cleanId)
+      .set('password', cleanPassword);
+
+    this.http.post<any>('http://localhost:8080/auth/login', null, { params }).subscribe({
+      next: (response) => {
+        const userRole = (response.role || '').toLowerCase();
+
+        localStorage.setItem('loggedInRole', userRole);
+        localStorage.setItem('studentName', String(response.name || ''));
+
+        if (userRole === 'student') {
+          this.router.navigate(['/student-dashboard']);
+        } else {
+          if (userRole === 'warden') {
+            localStorage.setItem('loggedInWarden', String(response.name || ''));
+          }
+          this.router.navigate(['/admin']);
+        }
+      },
+      error: (error) => {
+        console.error('Login error:', error);
+        if (error.error && error.error.message) {
+          this.errorMessage = error.error.message;
+        } else {
+          this.errorMessage = 'Invalid ID or password. Please verify your credentials.';
+        }
+      }
+    });
+  }
+}
