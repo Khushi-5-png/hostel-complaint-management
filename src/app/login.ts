@@ -22,7 +22,9 @@ import { Router } from '@angular/router';
           <img src="centurion-logo.jpg" alt="Centurion University Logo">
         </div>
 
-        <!-- LOGIN MODE -->
+        <!-- ==========================================
+             1. STANDARD LOGIN SCREEN
+             ========================================== -->
         <ng-container *ngIf="!showForgotPassword">
           <h1>Hostel Portal Login</h1>
 
@@ -74,7 +76,7 @@ import { Router } from '@angular/router';
           <!-- LOGIN BUTTON -->
           <button type="button" (click)="login()">Login</button>
 
-          <!-- FORGOT PASSWORD -->
+          <!-- FORGOT PASSWORD LINK -->
           <button
             type="button"
             class="forgot-password-button"
@@ -87,35 +89,90 @@ import { Router } from '@angular/router';
           <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
         </ng-container>
 
-        <!-- FORGOT PASSWORD SCREEN -->
+        <!-- ==========================================
+             2. FORGOT PASSWORD (2-STEP OTP SCREEN)
+             ========================================== -->
         <ng-container *ngIf="showForgotPassword">
-          <h1>Forgot Password</h1>
-          <p class="forgot-password-text">
-            Enter your registered email address. We will send you an OTP to reset your password.
-          </p>
+          <h1>Reset Password</h1>
 
-          <div class="form-group">
-            <label for="resetEmail">Email Address</label>
-            <input
-              type="email"
-              id="resetEmail"
-              name="resetEmail"
-              [(ngModel)]="resetEmail"
-              placeholder="Enter registered email"
-              autocomplete="email"
-            >
-          </div>
+          <!-- STEP 1: ENTER EMAIL -->
+          <ng-container *ngIf="!otpSent">
+            <p class="forgot-password-text">
+              Enter your registered email address. We will send a 6-digit OTP code to verify your account.
+            </p>
 
-          <button type="button" (click)="requestPasswordReset()">Send OTP</button>
+            <div class="form-group">
+              <label for="resetEmail">Registered Email Address</label>
+              <input
+                type="email"
+                id="resetEmail"
+                name="resetEmail"
+                [(ngModel)]="resetEmail"
+                placeholder="e.g. sonarkhushi71@gmail.com"
+                autocomplete="email"
+              >
+            </div>
 
+            <button type="button" (click)="requestPasswordReset()" [disabled]="isSubmitting">
+              {{ isSubmitting ? 'Sending OTP to Gmail...' : 'Send OTP' }}
+            </button>
+          </ng-container>
+
+          <!-- STEP 2: ENTER OTP & NEW PASSWORD -->
+          <ng-container *ngIf="otpSent">
+            <p class="forgot-password-text" style="color: #003366; font-weight: 600;">
+              ✅ OTP has been sent to {{ resetEmail }}! Please enter it below.
+            </p>
+
+            <div class="form-group">
+              <label for="resetOtp">Enter 6-Digit OTP</label>
+              <input
+                type="text"
+                id="resetOtp"
+                name="resetOtp"
+                [(ngModel)]="resetOtp"
+                placeholder="Enter 6-digit OTP from email"
+                maxlength="6"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="newPassword">New Password</label>
+              <input
+                type="password"
+                id="newPassword"
+                name="newPassword"
+                [(ngModel)]="newPassword"
+                placeholder="Enter new password"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirm New Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                [(ngModel)]="confirmPassword"
+                placeholder="Re-enter new password"
+              >
+            </div>
+
+            <button type="button" (click)="verifyOtpAndResetPassword()" [disabled]="isSubmitting">
+              {{ isSubmitting ? 'Updating Password...' : 'Verify OTP & Change Password' }}
+            </button>
+          </ng-container>
+
+          <!-- BACK TO LOGIN -->
           <button
             type="button"
             class="forgot-password-button"
             (click)="backToLogin()"
           >
-            Back to Login
+            ← Back to Login
           </button>
 
+          <!-- MESSAGES -->
           <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
           <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
         </ng-container>
@@ -131,7 +188,14 @@ export class LoginComponent {
   password = '';
 
   showForgotPassword = false;
+  otpSent = false;
+  isSubmitting = false;
+
   resetEmail = '';
+  resetOtp = '';
+  newPassword = '';
+  confirmPassword = '';
+
   successMessage = '';
   errorMessage = '';
 
@@ -149,18 +213,27 @@ export class LoginComponent {
 
   openForgotPassword() {
     this.showForgotPassword = true;
+    this.otpSent = false;
     this.resetEmail = '';
+    this.resetOtp = '';
+    this.newPassword = '';
+    this.confirmPassword = '';
     this.errorMessage = '';
     this.successMessage = '';
   }
 
   backToLogin() {
     this.showForgotPassword = false;
+    this.otpSent = false;
     this.resetEmail = '';
+    this.resetOtp = '';
+    this.newPassword = '';
+    this.confirmPassword = '';
     this.errorMessage = '';
     this.successMessage = '';
   }
 
+  // 1. SEND REAL OTP
   requestPasswordReset() {
     this.errorMessage = '';
     this.successMessage = '';
@@ -170,6 +243,7 @@ export class LoginComponent {
       return;
     }
 
+    this.isSubmitting = true;
     const email = this.resetEmail.trim().toLowerCase();
     const params = new HttpParams().set('email', email);
 
@@ -179,15 +253,77 @@ export class LoginComponent {
       { params, responseType: 'text' }
     ).subscribe({
       next: (response) => {
-        this.successMessage = response;
+        this.isSubmitting = false;
+        this.otpSent = true;
+        this.successMessage = response || 'OTP sent successfully! Check your Gmail.';
       },
       error: (error) => {
+        this.isSubmitting = false;
         console.error('Password reset error:', error);
-        this.errorMessage = 'Unable to send OTP. Please check your email.';
+        this.errorMessage = 'Unable to send OTP. Please check your backend connection.';
       }
     });
   }
 
+  // 2. VERIFY REAL OTP & CHANGE PASSWORD
+  verifyOtpAndResetPassword() {
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    if (!this.resetOtp.trim()) {
+      this.errorMessage = 'Please enter the 6-digit OTP from your email.';
+      return;
+    }
+
+    if (!this.newPassword) {
+      this.errorMessage = 'Please enter a new password.';
+      return;
+    }
+
+    if (this.newPassword.length < 4) {
+      this.errorMessage = 'Password must be at least 4 characters long.';
+      return;
+    }
+
+    if (this.newPassword !== this.confirmPassword) {
+      this.errorMessage = 'Passwords do not match. Please re-enter.';
+      return;
+    }
+
+    this.isSubmitting = true;
+    const email = this.resetEmail.trim().toLowerCase();
+
+    const params = new HttpParams()
+      .set('email', email)
+      .set('otp', this.resetOtp.trim())
+      .set('newPassword', this.newPassword);
+
+    this.http.post(
+      'http://localhost:8080/password/verify-otp',
+      null,
+      { params, responseType: 'text' }
+    ).subscribe({
+      next: (response) => {
+        this.isSubmitting = false;
+        this.successMessage = response || 'Password changed successfully! You can now log in.';
+        setTimeout(() => {
+          this.backToLogin();
+          this.successMessage = 'Password reset! You can now log in with your new password.';
+        }, 3000);
+      },
+      error: (error) => {
+        this.isSubmitting = false;
+        console.error('OTP verification error:', error);
+        if (error.error) {
+          this.errorMessage = error.error;
+        } else {
+          this.errorMessage = 'Invalid or expired OTP. Please try again.';
+        }
+      }
+    });
+  }
+
+  // 3. STANDARD LOGIN
   login() {
     this.errorMessage = '';
     this.successMessage = '';
@@ -199,7 +335,7 @@ export class LoginComponent {
 
     const trimmedUsername = this.username.trim().toLowerCase();
 
-    // 1. FAST STUDENT LOGIN (KHUSHI -> STUDENT DASHBOARD)
+    // Fast Student Login
     if (this.role === 'student' && trimmedUsername === 'khushi' && this.password === '1234') {
       localStorage.setItem('loggedInRole', 'student');
       localStorage.setItem('studentName', 'Khushi');
@@ -207,14 +343,14 @@ export class LoginComponent {
       return;
     }
 
-    // 2. FAST ADMIN LOGIN (ADMIN -> UNIFIED ADMIN DASHBOARD)
+    // Fast Admin Login
     if (this.role === 'admin' && trimmedUsername === 'admin' && this.password === '1234') {
       localStorage.setItem('loggedInRole', 'admin');
       this.router.navigate(['/admin']);
       return;
     }
 
-    // 3. FAST WARDEN LOGIN (PRAMILA -> UNIFIED ADMIN DASHBOARD)
+    // Fast Warden Login
     if (this.role === 'warden' && (trimmedUsername === 'pramila' || trimmedUsername === 'warden') && this.password === '1234') {
       localStorage.setItem('loggedInRole', 'warden');
       localStorage.setItem('loggedInWarden', 'Pramila Dash');
@@ -222,14 +358,14 @@ export class LoginComponent {
       return;
     }
 
-    // 4. FAST SUPERINTENDENT LOGIN (SUPERINTENDENT -> UNIFIED ADMIN DASHBOARD)
+    // Fast Superintendent Login
     if (this.role === 'superintendent' && trimmedUsername === 'superintendent' && this.password === '1234') {
       localStorage.setItem('loggedInRole', 'superintendent');
       this.router.navigate(['/admin']);
       return;
     }
 
-    // 5. DATABASE LOGIN (FOR OTHER REGISTERED USERS VIA POSTGRESQL)
+    // Database Login
     const cleanId = String(this.username).trim();
     const cleanPassword = String(this.password);
 
