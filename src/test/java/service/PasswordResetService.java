@@ -31,7 +31,7 @@ public class PasswordResetService {
 
         String resetToken = UUID.randomUUID().toString();
 
-        user..\mvnw.cmd compile\mvnw.cmd compile.setResetToken(resetToken);
+        user.git commit -m "Add complaint timestamps, newest-first sorting, and modernize student dashboard UI".\mvnw.cmd compile\mvnw.cmd compile.setResetToken(resetToken);
         user.setResetTokenExpiry(LocalDateTime.now().plusMinutes(30));
 
         userRepository.save(user);
