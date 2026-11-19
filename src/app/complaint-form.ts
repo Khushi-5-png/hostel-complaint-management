@@ -17,84 +17,108 @@ import { Router } from '@angular/router';
 })
 export class ComplaintFormComponent implements OnInit {
 
-  studentName = '';
-  roomNumber = '';
-  block = '';
-  warden = '';
+  studentName: string = '';
+  roomNumber: string = '';
+  block: string = 'Hostel';
+  warden: string = '';
 
-  superintendent = 'Basanta Manjari Dash';
-  sendToSuperintendent = false;
+  superintendent: string = 'Basanta Manjari Dash';
+  sendToSuperintendent: boolean = false;
 
-  complaintType = '';
-  description = '';
+  complaintType: string = '';
+  description: string = '';
 
   photo: File | null = null;
+  isSubmitting: boolean = false;
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) {}
 
-  ngOnInit() {
-    // 1. Auto-fill student name from the login session
+  ngOnInit(): void {
+    // Pre-fill student name if already logged in
     const savedName = localStorage.getItem('studentName');
-    if (savedName) {
+    if (savedName && savedName !== 'null') {
       this.studentName = savedName;
     }
   }
 
-  onPhotoSelected(event: Event) {
+  onPhotoSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-
     if (input.files && input.files.length > 0) {
       this.photo = input.files[0];
     }
   }
 
-  submitComplaint() {
+  submitComplaint(): void {
+    if (!this.studentName.trim()) {
+      alert('Please enter your full name.');
+      return;
+    }
+
+    if (!this.roomNumber.trim()) {
+      alert('Please enter your room number.');
+      return;
+    }
+
+    if (!this.warden) {
+      alert('Please select your assigned warden.');
+      return;
+    }
+
+    if (!this.complaintType) {
+      alert('Please select a complaint category.');
+      return;
+    }
+
+    if (!this.description.trim()) {
+      alert('Please provide a description of the issue.');
+      return;
+    }
+
+    this.isSubmitting = true;
 
     const complaint = {
-      studentName: this.studentName,
-      roomNumber: this.roomNumber,
-      block: this.block,
+      studentName: this.studentName.trim(),
+      roomNumber: this.roomNumber.trim(),
+      block: this.block || 'Hostel',
       warden: this.warden,
+
       superintendent: this.sendToSuperintendent
         ? this.superintendent
         : null,
+
       complaintType: this.complaintType,
-      description: this.description,
+      description: this.description.trim(),
       photoViewed: false
     };
 
     const formData = new FormData();
-
     formData.append(
       'complaint',
-      new Blob(
-        [JSON.stringify(complaint)],
-        { type: 'application/json' }
-      )
+      new Blob([JSON.stringify(complaint)], { type: 'application/json' })
     );
 
     if (this.photo) {
       formData.append('photo', this.photo);
     }
 
-    this.http.post(
-      'http://localhost:8080/complaints',
-      formData
-    ).subscribe({
+    this.http.post('http://localhost:8080/complaints', formData).subscribe({
       next: (response) => {
-        console.log('Complaint submitted:', response);
+        this.isSubmitting = false;
 
-        alert('Complaint submitted successfully!');
+        // Save student credentials so their dashboard immediately shows the new complaint
+        localStorage.setItem('studentName', this.studentName.trim());
+        localStorage.setItem('loggedInRole', 'student');
 
-        // Automatically take student back to her dashboard to see her complaint!
+        alert('✅ Complaint submitted successfully! Redirecting to your dashboard...');
         this.router.navigate(['/student-dashboard']);
       },
       error: (error) => {
+        this.isSubmitting = false;
         console.error('Error submitting complaint:', error);
-        alert('Failed to submit complaint. Please check your connection.');
+        alert('❌ Failed to submit complaint. Please check your backend connection.');
       }
     });
   }
