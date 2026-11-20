@@ -10,62 +10,63 @@ import java.util.UUID;
 @Service
 public class PasswordResetService {
 
-    private final UserRepository userRepository;
-    private final EmailService emailService;
+  private final UserRepository userRepository;
+  private final EmailService emailService;
 
-    public PasswordResetService(
-            UserRepository userRepository,
-            EmailService emailService
-    ) {
-        this.userRepository = userRepository;
-        this.emailService = emailService;
+  public PasswordResetService(
+    UserRepository userRepository,
+    EmailService emailService
+  ) {
+    this.userRepository = userRepository;
+    this.emailService = emailService;
+  }
+
+  public void requestPasswordReset(String email) {
+
+    User user = userRepository.findByEmailIgnoreCase(email).orElse(null);
+
+    if (user == null) {
+      throw new RuntimeException("No account found with this email address.");
     }
 
-    public void requestPasswordReset(String email) {
+    String resetToken = UUID.randomUUID().toString();
 
-        User user = userRepository.findByEmailIgnoreCase(email).orElse(null);
+    // **Fixed line – just store the token on the user**
+    user.setResetToken(resetToken);
+    user.setResetTokenExpiry(LocalDateTime.now().plusMinutes(30));
 
-        if (user == null) {
-            throw new RuntimeException("No account found with this email address.");
-        }
+    userRepository.save(user);
 
-        String resetToken = UUID.randomUUID().toString();
+    String resetLink =
+      "http://localhost:4200/reset-password?token=" + resetToken;
 
-        user.git commit -m "Add complaint timestamps, newest-first sorting, and modernize student dashboard UI".\mvnw.cmd compile\mvnw.cmd compile.setResetToken(resetToken);
-        user.setResetTokenExpiry(LocalDateTime.now().plusMinutes(30));
+    emailService.sendPasswordResetEmail(
+      user.getEmail(),
+      resetLink
+    );
+  }
 
-        userRepository.save(user);
+  public void resetPassword(String token, String newPassword) {
 
-        String resetLink =
-                "http://localhost:4200/reset-password?token=" + resetToken;
+    User user = userRepository.findByResetToken(token).orElse(null);
 
-        emailService.sendPasswordResetEmail(
-                user.getEmail(),
-                resetLink
-        );
+    if (user == null) {
+      throw new RuntimeException("Invalid or expired reset token.");
     }
 
-    public void resetPassword(String token, String newPassword) {
-
-        User user = userRepository.findByResetToken(token).orElse(null);
-
-        if (user == null) {
-            throw new RuntimeException("Invalid or expired reset token.");
-        }
-
-        if (user.getResetTokenExpiry() == null ||
-                user.getResetTokenExpiry().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Invalid or expired reset token.");
-        }
-
-        if (newPassword == null || newPassword.length() < 4) {
-            throw new RuntimeException("Password must be at least 4 characters.");
-        }
-
-        user.setPassword(newPassword);
-        user.setResetToken(null);
-        user.setResetTokenExpiry(null);
-
-        userRepository.save(user);
+    if (user.getResetTokenExpiry() == null ||
+      user.getResetTokenExpiry().isBefore(LocalDateTime.now())) {
+      throw new RuntimeException("Invalid or expired reset token.");
     }
+
+    if (newPassword == null || newPassword.length() < 4) {
+      throw new RuntimeException("Password must be at least 4 characters.");
+    }
+
+    user.setPassword(newPassword);
+    user.setResetToken(null);
+    user.setResetTokenExpiry(null);
+
+    userRepository.save(user);
+  }
 }
