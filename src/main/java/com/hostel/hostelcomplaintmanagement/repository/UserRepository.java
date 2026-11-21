@@ -7,9 +7,13 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByCollegeRegistrationId(String collegeRegistrationId);
+  Optional<User> findByCollegeRegistrationId(String collegeRegistrationId);
 
-    Optional<User> findByEmailIgnoreCase(String email);
+  Optional<User> findByEmailIgnoreCase(String email);
 
-    Optional<User> findByResetOtp(String resetOtp);
+  // Existing OTP lookup (still useful)
+  Optional<User> findByResetOtp(String resetOtp);
+
+  // <-- NEW method required by PasswordResetService
+  Optional<User> findByResetToken(String resetToken);
 }

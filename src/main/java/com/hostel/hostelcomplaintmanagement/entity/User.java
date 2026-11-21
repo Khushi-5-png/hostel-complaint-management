@@ -1,102 +1,130 @@
 package com.hostel.hostelcomplaintmanagement.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false)
-    private String name;
+  @Column(nullable = false)
+  private String name;
 
-    @Column(name = "college_registration_id", nullable = false, unique = true)
-    private String collegeRegistrationId;
+  @Column(name = "college_registration_id", nullable = false, unique = true)
+  private String collegeRegistrationId;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+  @Column(nullable = false, unique = true)
+  private String email;
 
-    @Column(nullable = false)
-    private String password;
+  @Column(nullable = false)
+  private String password;
 
-    @Column(nullable = false)
-    private String role;
+  @Column(nullable = false)
+  private String role;
 
-    @Column(name = "reset_otp")
-    private String resetOtp;
+  // ----- Existing OTP fields (used elsewhere) -----
+  @Column(name = "reset_otp")
+  private String resetOtp;
 
-    @Column(name = "reset_otp_expiry")
-    private LocalDateTime resetOtpExpiry;
+  @Column(name = "reset_otp_expiry")
+  private LocalDateTime resetOtpExpiry;
 
-    public User() {
-    }
+  // ----- NEW reset‑token fields required by PasswordResetService -----
+  @Column(name = "reset_token")
+  private String resetToken;
 
-    public Long getId() {
-        return id;
-    }
+  @Column(name = "reset_token_expiry")
+  private LocalDateTime resetTokenExpiry;
 
-    public String getName() {
-        return name;
-    }
+  // ------------------- Constructors -------------------
+  public User() {
+  }
 
-    public String getCollegeRegistrationId() {
-        return collegeRegistrationId;
-    }
+  // ------------------- Getters -------------------
+  public Long getId() {
+    return id;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getCollegeRegistrationId() {
+    return collegeRegistrationId;
+  }
 
-    public String getRole() {
-        return role;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public String getResetOtp() {
-        return resetOtp;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public LocalDateTime getResetOtpExpiry() {
-        return resetOtpExpiry;
-    }
+  public String getRole() {
+    return role;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public String getResetOtp() {
+    return resetOtp;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public LocalDateTime getResetOtpExpiry() {
+    return resetOtpExpiry;
+  }
 
-    public void setCollegeRegistrationId(String collegeRegistrationId) {
-        this.collegeRegistrationId = collegeRegistrationId;
-    }
+  // **New getters**
+  public String getResetToken() {
+    return resetToken;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public LocalDateTime getResetTokenExpiry() {
+    return resetTokenExpiry;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  // ------------------- Setters -------------------
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setResetOtp(String resetOtp) {
-        this.resetOtp = resetOtp;
-    }
+  public void setCollegeRegistrationId(String collegeRegistrationId) {
+    this.collegeRegistrationId = collegeRegistrationId;
+  }
 
-    public void setResetOtpExpiry(LocalDateTime resetOtpExpiry) {
-        this.resetOtpExpiry = resetOtpExpiry;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
+  }
+
+  public void setResetOtp(String resetOtp) {
+    this.resetOtp = resetOtp;
+  }
+
+  public void setResetOtpExpiry(LocalDateTime resetOtpExpiry) {
+    this.resetOtpExpiry = resetOtpExpiry;
+  }
+
+  // **New setters**
+  public void setResetToken(String resetToken) {
+    this.resetToken = resetToken;
+  }
+
+  public void setResetTokenExpiry(LocalDateTime resetTokenExpiry) {
+    this.resetTokenExpiry = resetTokenExpiry;
+  }
 }
