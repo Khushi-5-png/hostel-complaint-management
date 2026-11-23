@@ -1,66 +1,18 @@
 package com.hostel.hostelcomplaintmanagement.service;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+/** Simple email service – currently just logs to the console. */
 @Service
 public class EmailService {
 
-    private final JavaMailSender mailSender;
+  public void sendPasswordResetEmail(String email, String otp) {
+    System.out.println("[EmailService] Password‑reset OTP for " + email + ": " + otp);
+  }
 
-    @Value("${spring.mail.username}")
-    private String senderEmail;
-
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
-
-    public void sendPasswordResetOtp(
-            String toEmail,
-            String otp
-    ) {
-
-        try {
-
-            SimpleMailMessage message = new SimpleMailMessage();
-
-            message.setFrom(senderEmail);
-            message.setTo(toEmail);
-
-            message.setSubject(
-                    "Hostel Complaint Management - Password Reset OTP"
-            );
-
-            message.setText(
-                    "Hello,\n\n" +
-                            "Your password reset OTP is:\n\n" +
-                            otp + "\n\n" +
-                            "This OTP is valid for 10 minutes.\n\n" +
-                            "If you did not request a password reset, " +
-                            "please ignore this email.\n\n" +
-                            "Regards,\n" +
-                            "Hostel Complaint Management System"
-            );
-
-            mailSender.send(message);
-
-            System.out.println(
-                    "OTP email sent successfully to: " + toEmail
-            );
-
-        } catch (Exception e) {
-
-            System.out.println(
-                    "OTP email sending failed: " + e.getMessage()
-            );
-
-            e.printStackTrace();
-
-            throw new RuntimeException(
-                    "Unable to send OTP email. Please check Gmail configuration."
-            );
-        }
-    }
+  /** NEW: send the registration OTP when a user signs up. */
+  public void sendRegistrationOtp(String email, String otp) {
+    System.out.println("[EmailService] Registration OTP for " + email + ": " + otp);
+    // Replace with a real email sender when you’re ready.
+  }
 }

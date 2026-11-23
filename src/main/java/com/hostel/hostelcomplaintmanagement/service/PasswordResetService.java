@@ -7,81 +7,89 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Random;
 
+/**
+ * Service handling the password‑reset flow using a 6‑digit OTP.
+ * Works for all user roles (student, warden, superintendent, admin).
+ */
 @Service
 public class PasswordResetService {
 
   private final UserRepository userRepository;
   private final EmailService emailService;
 
-  public PasswordResetService(
-    UserRepository userRepository,
-    EmailService emailService
-  ) {
+  private static final int OTP_LENGTH = 6;          // 6‑digit numeric code
+  private static final int OTP_EXPIRY_MINUTES = 30; // OTP lives for 30 min
+
+  public PasswordResetService(UserRepository userRepository,
+                              EmailService emailService) {
     this.userRepository = userRepository;
     this.emailService = emailService;
   }
 
-  // 1. Generate & Send 6-Digit Real OTP Email
+  /**
+   * Step 1 – called when the UI requests an OTP.
+   *
+   * @param email the user's registered e‑mail address
+   */
   public void sendOtp(String email) {
+    // Find the user by e‑mail (case‑insensitive)
+    User user = userRepository.findByEmailIgnoreCase(email)
+      .orElseThrow(() -> new RuntimeException(
+        "No account found with this e‑mail address."));
 
-    String cleanEmail = email.trim().toLowerCase();
+    // Generate a 6‑digit OTP
+    String otp = generateSixDigitOtp();
 
-    User user = userRepository.findByEmailIgnoreCase(cleanEmail).orElse(null);
-
-    // If user doesn't exist yet, automatically register as a student so password reset always works
-    if (user == null) {
-      user = new User();
-      user.setName("Student");
-      user.setCollegeRegistrationId(cleanEmail.split("@")[0]);
-      user.setEmail(cleanEmail);
-      user.setPassword("1234");
-      user.setRole("STUDENT");
-      user = userRepository.save(user);
-    }
-
-    // Generate a random 6-digit OTP
-    String otp = String.format("%06d", new Random().nextInt(900000) + 100000);
-
+    // Store OTP & expiry on the user entity
     user.setResetOtp(otp);
-    user.setResetOtpExpiry(LocalDateTime.now().plusMinutes(10));
+    user.setResetOtpExpiry(LocalDateTime.now().plusMinutes(OTP_EXPIRY_MINUTES));
     userRepository.save(user);
 
-    // Send real email via Gmail
-    emailService.sendPasswordResetOtp(cleanEmail, otp);
+    // Send e‑mail (or log to console in demo mode)
+    emailService.sendPasswordResetEmail(email, otp);
   }
 
-  // 2. Verify OTP & Update Password in PostgreSQL
-  public void verifyOtpAndChangePassword(
-    String email,
-    String otp,
-    String newPassword
-  ) {
+  /**
+   * Step 2 – called after the user submits the OTP and a new password.
+   *
+   * @param email        user's e‑mail (for safety)
+   * @param otp          the OTP the user received
+   * @param newPassword  the new password the user wants
+   */
+  public void verifyOtpAndChangePassword(String email,
+                                         String otp,
+                                         String newPassword) {
+    // Locate the user again
+    User user = userRepository.findByEmailIgnoreCase(email)
+      .orElseThrow(() -> new RuntimeException(
+        "No account found with this e‑mail address."));
 
-    String cleanEmail = email.trim().toLowerCase();
-    User user = userRepository.findByEmailIgnoreCase(cleanEmail).orElse(null);
-
-    if (user == null) {
-      throw new RuntimeException("No account found with this email address.");
-    }
-
-    if (user.getResetOtp() == null || !user.getResetOtp().equals(otp.trim())) {
-      throw new RuntimeException("Invalid OTP code. Please check your email.");
-    }
-
-    if (user.getResetOtpExpiry() == null ||
+    // Validate OTP presence, value, and expiration
+    if (user.getResetOtp() == null ||
+      !user.getResetOtp().equals(otp) ||
+      user.getResetOtpExpiry() == null ||
       user.getResetOtpExpiry().isBefore(LocalDateTime.now())) {
-      throw new RuntimeException("OTP has expired. Please request a new one.");
+      throw new RuntimeException("Invalid or expired OTP. Please request a new code.");
     }
 
-    if (newPassword == null || newPassword.trim().length() < 4) {
-      throw new RuntimeException("Password must be at least 4 characters long.");
+    // Simple password strength check (you can expand this)
+    if (newPassword == null || newPassword.length() < 4) {
+      throw new RuntimeException("Password must be at least 4 characters.");
     }
 
-    // Update password in database and clear OTP
-    user.setPassword(newPassword.trim());
+    // Apply the new password and clear OTP fields
+    user.setPassword(newPassword);
     user.setResetOtp(null);
     user.setResetOtpExpiry(null);
-
     userRepository.save(user);
+  }
+
+  // -----------------------------------------------------------------
+  // Helper to generate a zero‑padded 6‑digit numeric OTP
+  // -----------------------------------------------------------------
+  private String generateSixDigitOtp() {
+    Random rnd = new Random();
+    int number = rnd.nextInt((int) Math.pow(10, OTP_LENGTH));
+    return String.format("%0" + OTP_LENGTH + "d", number);
   }
 }

@@ -40,6 +40,17 @@ public class User {
   @Column(name = "reset_token_expiry")
   private LocalDateTime resetTokenExpiry;
 
+  // ----- NEW fields for registration OTP -----
+  @Column(name = "registration_otp")
+  private String registrationOtp;
+
+  @Column(name = "registration_otp_expiry")
+  private LocalDateTime registrationOtpExpiry;
+
+  // Account activation flag (false = not yet verified)
+  @Column(name = "enabled")
+  private boolean enabled = false;
+
   // ------------------- Constructors -------------------
   public User() {
   }
@@ -77,13 +88,26 @@ public class User {
     return resetOtpExpiry;
   }
 
-  // **New getters**
   public String getResetToken() {
     return resetToken;
   }
 
   public LocalDateTime getResetTokenExpiry() {
     return resetTokenExpiry;
+  }
+
+  // New getters for registration OTP
+  public String getRegistrationOtp() {
+    return registrationOtp;
+  }
+
+  public LocalDateTime getRegistrationOtpExpiry() {
+    return registrationOtpExpiry;
+  }
+
+  // Account enabled flag
+  public boolean isEnabled() {
+    return enabled;
   }
 
   // ------------------- Setters -------------------
@@ -119,12 +143,25 @@ public class User {
     this.resetOtpExpiry = resetOtpExpiry;
   }
 
-  // **New setters**
   public void setResetToken(String resetToken) {
     this.resetToken = resetToken;
   }
 
   public void setResetTokenExpiry(LocalDateTime resetTokenExpiry) {
     this.resetTokenExpiry = resetTokenExpiry;
+  }
+
+  // New setters for registration OTP
+  public void setRegistrationOtp(String registrationOtp) {
+    this.registrationOtp = registrationOtp;
+  }
+
+  public void setRegistrationOtpExpiry(LocalDateTime registrationOtpExpiry) {
+    this.registrationOtpExpiry = registrationOtpExpiry;
+  }
+
+  // Account enabled flag setter
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
   }
 }
